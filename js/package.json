@@ -1,0 +1,69 @@
+{
+  "name": "@runapi.ai/nano-banana",
+  "version": "0.2.1",
+  "description": "RunAPI Nano Banana SDK for JavaScript, Ruby, and Go",
+  "main": "./dist/index.js",
+  "module": "./dist/index.mjs",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.mjs",
+      "require": "./dist/index.js"
+    }
+  },
+  "files": [
+    "dist",
+    "skills",
+    "README.md",
+    "LICENSE"
+  ],
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "scripts": {
+    "build": "tsup",
+    "test": "vitest run",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist",
+    "test:base": "dotenv -e manual-tests/.env -- tsx manual-tests/test-generation-base.ts",
+    "test:pro": "dotenv -e manual-tests/.env -- tsx manual-tests/test-generation-pro.ts",
+    "test:edit": "dotenv -e manual-tests/.env -- tsx manual-tests/test-edit.ts",
+    "test:polling": "dotenv -e manual-tests/.env -- tsx manual-tests/test-polling.ts",
+    "test:errors": "dotenv -e manual-tests/.env -- tsx manual-tests/test-error-handling.ts",
+    "test:all": "dotenv -e manual-tests/.env -- tsx manual-tests/test-all.ts",
+    "test:manual": "pnpm run test:all"
+  },
+  "dependencies": {
+    "@runapi.ai/core": "^0.2.1"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "@vitest/coverage-v8": "^1.6.0",
+    "dotenv-cli": "^11.0.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.4.0",
+    "vitest": "^1.6.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "keywords": [
+    "runapi",
+    "runapi-ai",
+    "nano-banana",
+    "api",
+    "sdk",
+    "typescript",
+    "ruby",
+    "golang"
+  ],
+  "author": "RunAPI",
+  "license": "Apache-2.0",
+  "homepage": "https://runapi.ai/models/nano-banana",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/runapi-ai/nano-banana-sdk.git"
+  }
+}
