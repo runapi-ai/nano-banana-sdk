@@ -107,7 +107,7 @@ async function main() {
     
     console.error('\n💡 Troubleshooting tips:');
     console.error('   1. Check if Rails server is running (bin/dev)');
-    console.error('   2. Verify your API token is valid');
+    console.error('   2. Verify your API Key is valid');
     console.error('   3. Check if you have sufficient creditImage');
     console.error('   4. Run with DEBUG=true for more details\n');
     

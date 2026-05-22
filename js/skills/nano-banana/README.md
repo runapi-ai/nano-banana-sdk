@@ -1,4 +1,25 @@
-# Nano Banana API Skill for RunAPI
+<p align="center">
+  <a href="https://github.com/runapi-ai/nano-banana">
+    <h3 align="center">Nano Banana API Skill for RunAPI</h3>
+  </a>
+</p>
+
+<p align="center">
+  Install this agent skill, inspect Nano Banana fields, then run jobs through the RunAPI CLI.
+</p>
+
+<p align="center">
+  <a href="https://runapi.ai/models/nano-banana"><strong>Model Reference</strong></a> · <a href="https://github.com/runapi-ai/cli"><strong>CLI</strong></a> · <a href="https://github.com/runapi-ai/nano-banana-sdk"><strong>SDK</strong></a>
+</p>
+
+<div align="center">
+
+[![skills.sh](https://www.skills.sh/b/runapi-ai/nano-banana)](https://www.skills.sh/runapi-ai/nano-banana/nano-banana)
+[![ClawHub](https://img.shields.io/badge/ClawHub-runapi--nano--banana-111827)](https://clawhub.ai/runapi-ai/runapi-nano-banana)
+[![License](https://img.shields.io/github/license/runapi-ai/nano-banana)](https://github.com/runapi-ai/nano-banana/blob/main/LICENSE)
+
+</div>
+<br/>
 
 Generate and edit images with Nano Banana standard, pro, and edit models. This skill helps Claude Code, Codex, Gemini CLI, Cursor, and 50+ agents integrate Nano Banana through RunAPI.
 
@@ -10,7 +31,18 @@ The canonical agent file is `skills/nano-banana/SKILL.md`.
 npx skills add runapi-ai/nano-banana -g
 ```
 
-Or manually: clone this repo and copy `skills/nano-banana/` into your agent's skills directory.
+Or paste this prompt to your AI agent:
+
+```text
+Install the nano-banana skill for me:
+
+1. Clone https://github.com/runapi-ai/nano-banana
+2. Copy the skills/nano-banana/ directory into your
+   user-level skills directory (e.g. ~/.claude/skills/
+   for Claude Code, ~/.codex/skills/ for Codex).
+3. Verify that SKILL.md is present.
+4. Confirm the install path when done.
+```
 
 ## Quick example
 

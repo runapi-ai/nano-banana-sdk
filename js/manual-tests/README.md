@@ -18,9 +18,9 @@ overmind start
 
 The server should be available at `http://localhost:3000`.
 
-### 2. Get API Token
+### 2. Get API Key
 
-You need a valid API token with sufficient creditImage:
+You need a valid API Key with sufficient creditImage:
 
 **Option A: Using Rails Console**
 ```bash
@@ -29,12 +29,12 @@ bin/rails console
 
 Then in the console:
 ```ruby
-# Get the first API token
+# Get the first API Key
 ApiToken.first.token
 
 # Or create a new one for testing
 user = User.first
-token = user.api_tokens.create(name: "SDK Test Token")
+token = user.api_tokens.create(name: "SDK Test Key")
 token.token  # Copy this
 ```
 
@@ -54,14 +54,14 @@ SELECT token FROM api_tokens LIMIT 1;
 # Copy the example file
 cp manual-tests/.env.example manual-tests/.env
 
-# Edit manual-tests/.env with your API token
+# Edit manual-tests/.env with your API Key
 # The .env file will be automatically loaded when you run tests
 ```
 
 **Alternative: Manual export (not recommended)**
 ```bash
 # Only needed if you don't use the .env file
-export RUNAPI_API_KEY="your-api-token-here"
+export RUNAPI_API_KEY="your-api-key-here"
 export RUNAPI_BASE_URL="http://localhost:3000"
 export TEST_IMAGE_URL="https://example.com/your-test-image.jpg"
 export DEBUG=true
@@ -344,7 +344,7 @@ bin/dev
 cd sdk/js/packages/nano-banana/manual-tests
 cp .env.example .env
 
-# 3. Get API token and add to .env
+# 3. Get API Key and add to .env
 echo "RUNAPI_API_KEY=$(bin/rails runner 'puts ApiToken.first.token')" >> .env
 
 # 4. Run base model test (quick verification)
