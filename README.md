@@ -1,4 +1,24 @@
-# Nano Banana API SDK for RunAPI
+<p align="center">
+  <a href="https://runapi.ai"><img src="https://runapi.ai/icon.svg" height="56" alt="RunAPI"></a>
+</p>
+
+<h3 align="center">
+  <a href="https://github.com/runapi-ai/nano-banana-sdk">Nano Banana API SDK for RunAPI</a>
+</h3>
+
+<p align="center">
+  Nano Banana API SDKs for JavaScript, Ruby, and Go on RunAPI.
+</p>
+
+<div align="center">
+
+[![npm](https://img.shields.io/npm/v/@runapi.ai/nano-banana)](https://www.npmjs.com/package/@runapi.ai/nano-banana)
+[![RubyGems](https://img.shields.io/gem/v/runapi-nano-banana)](https://rubygems.org/gems/runapi-nano-banana)
+[![Go Reference](https://pkg.go.dev/badge/github.com/runapi-ai/nano-banana-sdk/go.svg)](https://pkg.go.dev/github.com/runapi-ai/nano-banana-sdk/go)
+[![License](https://img.shields.io/github/license/runapi-ai/nano-banana-sdk)](https://github.com/runapi-ai/nano-banana-sdk/blob/main/LICENSE)
+
+</div>
+<br/>
 
 The nano banana api SDK packages JavaScript, Ruby, and Go clients for Nano Banana image generation on RunAPI. Use this nano banana api SDK for text-to-image, image-to-image, pro model, and image editing workflows.
 
