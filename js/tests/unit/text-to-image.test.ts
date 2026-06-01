@@ -21,7 +21,7 @@ describe('TextToImage', () => {
       const result = await textToImage.create({
         model: 'nano-banana',
         prompt: 'A beautiful landscape',
-        image_size: '16:9',
+        aspect_ratio: '16:9',
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -31,7 +31,7 @@ describe('TextToImage', () => {
           body: {
             model: 'nano-banana',
             prompt: 'A beautiful landscape',
-            image_size: '16:9',
+            aspect_ratio: '16:9',
           },
         }
       );
@@ -47,7 +47,7 @@ describe('TextToImage', () => {
         model: 'nano-banana-pro',
         prompt: 'Ultra-detailed cityscape',
         aspect_ratio: '16:9',
-        resolution: '4K',
+        output_resolution: '4k',
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -58,7 +58,7 @@ describe('TextToImage', () => {
             model: 'nano-banana-pro',
             prompt: 'Ultra-detailed cityscape',
             aspect_ratio: '16:9',
-            resolution: '4K',
+            output_resolution: '4k',
           },
         }
       );
@@ -75,7 +75,7 @@ describe('TextToImage', () => {
         prompt: 'Test image',
         callback_url: 'https://example.com/callback',
         output_format: 'png',
-        image_input: ['https://example.com/input.jpg'],
+        reference_image_urls: ['https://cdn.runapi.ai/public/samples/input.jpg'],
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -87,7 +87,7 @@ describe('TextToImage', () => {
             prompt: 'Test image',
             callback_url: 'https://example.com/callback',
             output_format: 'png',
-            image_input: ['https://example.com/input.jpg'],
+            reference_image_urls: ['https://cdn.runapi.ai/public/samples/input.jpg'],
           },
         }
       );
@@ -119,7 +119,7 @@ describe('TextToImage', () => {
         id: 'task-123',
         status: 'completed',
         model: 'nano-banana-pro',
-        result_urls: ['https://example.com/result.png'],
+        images: [{ url: 'https://cdn.runapi.ai/public/samples/result.png' }],
       };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
 
@@ -127,7 +127,7 @@ describe('TextToImage', () => {
       const result = await textToImage.get('task-123');
 
       expect(result.status).toBe('completed');
-      expect(result.result_urls).toEqual(['https://example.com/result.png']);
+      expect(result.images).toEqual([{ url: 'https://cdn.runapi.ai/public/samples/result.png' }]);
     });
 
     it('should return failed status with error', async () => {
@@ -159,7 +159,7 @@ describe('TextToImage', () => {
         id: 'task-123',
         status: 'completed',
         model: 'nano-banana',
-        result_urls: ['https://example.com/result.png'],
+        images: [{ url: 'https://cdn.runapi.ai/public/samples/result.png' }],
       };
 
       vi.mocked(mockHttp.request)
@@ -174,7 +174,7 @@ describe('TextToImage', () => {
       });
 
       expect(result.status).toBe('completed');
-      expect(result.result_urls).toEqual(['https://example.com/result.png']);
+      expect(result.images).toEqual([{ url: 'https://cdn.runapi.ai/public/samples/result.png' }]);
     });
   });
 });

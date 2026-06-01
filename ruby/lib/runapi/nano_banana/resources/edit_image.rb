@@ -20,7 +20,7 @@ module RunApi
         # Edit an image and wait until complete.
         #
         # @param params [Hash] edit parameters
-        # @return [RunApi::NanoBanana::Types::CompletedEditImageResponse] completed edit with result URLs
+        # @return [RunApi::NanoBanana::Types::CompletedEditImageResponse] completed edit with image results
         def run(**params)
           task = create(**params)
           poll_until_complete { get(task.id) }
@@ -49,7 +49,7 @@ module RunApi
         def validate_params!(params)
           raise Core::ValidationError, "model is required" unless param(params, :model)
           raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
-          raise Core::ValidationError, "image_urls is required" unless param(params, :image_urls)
+          raise Core::ValidationError, "source_image_urls is required" unless param(params, :source_image_urls)
 
           model = param(params, :model)
           unless Types::EDIT_MODELS.include?(model)
@@ -57,6 +57,7 @@ module RunApi
           end
 
           validate_optional!(params, :output_format, Types::OUTPUT_FORMATS)
+          validate_optional!(params, :aspect_ratio, Types::BASE_ASPECT_RATIOS)
         end
       end
     end

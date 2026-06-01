@@ -53,9 +53,9 @@ const client = new NanoBananaClient();
 const result = await client.textToImage.run({
   model: 'nano-banana',
   prompt: 'A bowl of fruit on a wooden table, soft daylight',
-  image_size: '16:9',
+  aspect_ratio: '16:9',
 });
-const url = result.result_urls[0];
+const url = result.images[0].url;
 ```
 
 ## Routing

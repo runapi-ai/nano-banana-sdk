@@ -4,11 +4,7 @@ import type { AsyncTaskStatus } from '@runapi.ai/core';
 export type TextToImageModel = 'nano-banana' | 'nano-banana-pro' | 'nano-banana-2';
 export type EditImageModel = 'nano-banana-edit';
 
-/**
- * Base model aspect ratio options.
- * Note: Base model uses 'image_size' parameter which includes 'auto' option.
- */
-export type ImageSize =
+export type BaseAspectRatio =
   | '1:1'
   | '9:16'
   | '16:9'
@@ -21,10 +17,6 @@ export type ImageSize =
   | '21:9'
   | 'auto';
 
-/**
- * Pro model aspect ratio options.
- * Note: Pro model uses 'aspect_ratio' parameter (includes 'auto' option).
- */
 export type AspectRatio =
   | '1:1'
   | '2:3'
@@ -49,8 +41,7 @@ export type AspectRatioV2 =
   | '4:1'
   | '8:1';
 
-// Resolution (Pro and V2)
-export type Resolution = '1K' | '2K' | '4K';
+export type OutputResolution = '1k' | '2k' | '4k';
 
 // Output format
 export type OutputFormat = 'png' | 'jpg' | 'jpeg';
@@ -61,8 +52,8 @@ export interface GenerationBaseParams {
   prompt: string;
   callback_url?: string;
   output_format?: OutputFormat;
-  image_size?: ImageSize;
-  image_input?: string[];
+  aspect_ratio?: BaseAspectRatio;
+  reference_image_urls?: string[];
 }
 
 // Pro generation params
@@ -72,8 +63,8 @@ export interface GenerationProParams {
   callback_url?: string;
   output_format?: OutputFormat;
   aspect_ratio?: AspectRatio;
-  resolution?: Resolution;
-  image_input?: string[];
+  output_resolution?: OutputResolution;
+  reference_image_urls?: string[];
 }
 
 // V2 generation params
@@ -83,8 +74,8 @@ export interface GenerationV2Params {
   callback_url?: string;
   output_format?: OutputFormat;
   aspect_ratio?: AspectRatioV2;
-  resolution?: Resolution;
-  image_input?: string[];
+  output_resolution?: OutputResolution;
+  reference_image_urls?: string[];
 }
 
 export type TextToImageParams =
@@ -96,10 +87,10 @@ export type TextToImageParams =
 export interface EditImageParams {
   model: 'nano-banana-edit';
   prompt: string;
-  image_urls: string[];
+  source_image_urls: string[];
   callback_url?: string;
   output_format?: OutputFormat;
-  image_size?: ImageSize;
+  aspect_ratio?: BaseAspectRatio;
 }
 
 // Response types
@@ -107,10 +98,15 @@ export interface TaskCreateResponse {
   id: string;
 }
 
+export interface Image {
+  url: string;
+  origin_url?: string;
+}
+
 export interface TextToImageResponse {
   id: string;
   status: AsyncTaskStatus;
-  result_urls?: string[];
+  images?: Image[];
   error?: string;
   [key: string]: unknown;
 }
@@ -118,22 +114,22 @@ export interface TextToImageResponse {
 export interface EditImageResponse {
   id: string;
   status: AsyncTaskStatus;
-  result_urls?: string[];
+  images?: Image[];
   error?: string;
   [key: string]: unknown;
 }
 
 /**
  * Resolved responses returned by the `run()` methods after polling sees
- * `status: 'completed'`. Narrows the base response so `result_urls` is
+ * `status: 'completed'`. Narrows the base response so `images` is
  * guaranteed non-optional in user code.
  */
 export type CompletedTextToImageResponse = TextToImageResponse & {
   status: 'completed';
-  result_urls: string[];
+  images: Image[];
 };
 
 export type CompletedEditImageResponse = EditImageResponse & {
   status: 'completed';
-  result_urls: string[];
+  images: Image[];
 };

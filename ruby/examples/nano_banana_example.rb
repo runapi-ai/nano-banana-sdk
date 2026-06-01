@@ -15,28 +15,28 @@ result = client.text_to_image.run(
   prompt: "a serene mountain lake at sunset"
 )
 puts "Status: #{result["status"]}"
-puts "URLs: #{result["result_urls"]}"
+puts "Image URLs: #{result["images"]&.map { |image| image["url"] }}"
 
-# 2. Pro model with aspect ratio and resolution
+# 2. Pro model with aspect ratio and output resolution
 puts "\n=== Pro Model Generation ==="
 result = client.text_to_image.run(
   model: "nano-banana-pro",
   prompt: "cyberpunk cityscape at night",
   aspect_ratio: "16:9",
-  resolution: "2K"
+  output_resolution: "2k"
 )
 puts "Status: #{result["status"]}"
-puts "URLs: #{result["result_urls"]}"
+puts "Image URLs: #{result["images"]&.map { |image| image["url"] }}"
 
 # 3. Image editing
 puts "\n=== Image Editing ==="
 result = client.edit_image.run(
   model: "nano-banana-edit",
   prompt: "make the sky more dramatic",
-  image_urls: [ ENV.fetch("TEST_IMAGE_URL", "https://raw.githubusercontent.com/ckenst/images-catalog/refs/heads/master/size/small_size/Starbucks%20Dog.jpg") ]
+  source_image_urls: [ENV.fetch("TEST_IMAGE_URL", "https://raw.githubusercontent.com/ckenst/images-catalog/refs/heads/master/size/small_size/Starbucks%20Dog.jpg")]
 )
 puts "Status: #{result["status"]}"
-puts "URLs: #{result["result_urls"]}"
+puts "Image URLs: #{result["images"]&.map { |image| image["url"] }}"
 
 # 4. Manual polling (create + get)
 puts "\n=== Manual Polling ==="

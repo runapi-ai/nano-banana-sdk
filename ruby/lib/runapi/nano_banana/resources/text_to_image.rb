@@ -20,7 +20,7 @@ module RunApi
         # Generate an image and wait until complete.
         #
         # @param params [Hash] generation parameters
-        # @return [RunApi::NanoBanana::Types::CompletedTextToImageResponse] completed generation with result URLs
+        # @return [RunApi::NanoBanana::Types::CompletedTextToImageResponse] completed generation with image results
         def run(**params)
           task = create(**params)
           poll_until_complete { get(task.id) }
@@ -56,7 +56,7 @@ module RunApi
           end
 
           validate_optional!(params, :aspect_ratio, Types::ASPECT_RATIOS)
-          validate_optional!(params, :resolution, Types::RESOLUTIONS)
+          validate_optional!(params, :output_resolution, Types::OUTPUT_RESOLUTIONS)
           validate_optional!(params, :output_format, Types::OUTPUT_FORMATS)
         end
       end

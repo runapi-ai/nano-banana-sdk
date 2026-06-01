@@ -1,6 +1,6 @@
 {
   "name": "@runapi.ai/nano-banana",
-  "version": "0.2.4",
+  "version": "0.2.5",
   "description": "RunAPI Nano Banana SDK for JavaScript, Ruby, and Go",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
@@ -25,17 +25,10 @@
     "build": "tsup",
     "test": "vitest run",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist",
-    "test:base": "dotenv -e manual-tests/.env -- tsx manual-tests/test-generation-base.ts",
-    "test:pro": "dotenv -e manual-tests/.env -- tsx manual-tests/test-generation-pro.ts",
-    "test:edit": "dotenv -e manual-tests/.env -- tsx manual-tests/test-edit.ts",
-    "test:polling": "dotenv -e manual-tests/.env -- tsx manual-tests/test-polling.ts",
-    "test:errors": "dotenv -e manual-tests/.env -- tsx manual-tests/test-error-handling.ts",
-    "test:all": "dotenv -e manual-tests/.env -- tsx manual-tests/test-all.ts",
-    "test:manual": "pnpm run test:all"
+    "clean": "rm -rf dist"
   },
   "dependencies": {
-    "@runapi.ai/core": "^0.2.4"
+    "@runapi.ai/core": "^0.2.5"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",

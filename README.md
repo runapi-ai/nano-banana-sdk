@@ -20,7 +20,7 @@
 </div>
 <br/>
 
-The nano banana api SDK packages JavaScript, Ruby, and Go clients for Nano Banana image generation on RunAPI. Use this nano banana api SDK for text-to-image, image-to-image, pro model, and image editing workflows.
+The nano banana api SDK packages JavaScript, Ruby, and Go clients for Nano Banana image generation on RunAPI. Use this nano banana api SDK for text-to-image, reference-image, pro model, and image editing workflows.
 
 ## Installation
 
@@ -45,17 +45,17 @@ const client = new NanoBananaClient({
 const result = await client.textToImage.run({
   model: 'nano-banana',
   prompt: 'A bowl of fruit on a wooden table, soft daylight',
-  image_size: '16:9',
+  aspect_ratio: '16:9',
 });
 
-console.log('Image URLs:', result.result_urls);
+console.log('Image URLs:', result.images?.map((image) => image.url));
 ```
 
 ## Features
 
 - **Text-to-Image**: Generate images from prompts
-- **Image-to-Image**: Provide reference images with `image_input`
-- **Pro Model**: Higher fidelity with aspect ratio + resolution controls
+- **Reference Images**: Provide guidance images with `reference_image_urls`
+- **Pro Model**: Higher fidelity with aspect ratio + output resolution controls
 - **Image Editing**: Transform images with prompts
 - **Automatic Polling**: Built-in polling for async tasks
 - **Full TypeScript Support**: Complete type definitions for all endpoints
@@ -80,8 +80,8 @@ const client = new NanoBananaClient({
 const result = await client.textToImage.run({
   model: 'nano-banana',
   prompt: 'A modern desk setup with a laptop and coffee',
-  image_size: '4:3', // or 'auto'
-  image_input: ['https://example.com/reference.png'], // optional
+  aspect_ratio: '4:3', // or 'auto'
+  reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'], // optional
   output_format: 'png', // optional
   callback_url: 'https://your-domain.com/webhook', // optional
 });
@@ -94,8 +94,8 @@ const result = await client.textToImage.run({
   model: 'nano-banana-pro',
   prompt: 'A futuristic city skyline at dusk',
   aspect_ratio: '16:9',
-  resolution: '2K', // optional: 1K | 2K | 4K
-  image_input: ['https://example.com/reference.png'], // optional
+  output_resolution: '2k', // optional: 1k | 2k | 4k
+  reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'], // optional
   output_format: 'jpeg', // optional
 });
 ```
@@ -107,8 +107,8 @@ const result = await client.textToImage.run({
   model: 'nano-banana-2',
   prompt: 'A futuristic city skyline at dusk', // up to 20,000 characters
   aspect_ratio: '16:9', // adds 1:4, 1:8, 4:1, 8:1 vs pro
-  resolution: '2K', // optional: 1K | 2K | 4K
-  image_input: ['https://example.com/reference.png'], // optional, up to 14
+  output_resolution: '2k', // optional: 1k | 2k | 4k
+  reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'], // optional, up to 14
   output_format: 'jpg', // optional: png | jpg (default jpg)
 });
 ```
@@ -131,8 +131,8 @@ console.log('Status:', status.status);
 const result = await client.editImage.run({
   model: 'nano-banana-edit',
   prompt: 'Make it look like a watercolor painting',
-  image_urls: ['https://example.com/source.jpg'],
-  image_size: '1:1',
+  source_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+  aspect_ratio: '1:1',
 });
 ```
 
@@ -141,13 +141,13 @@ const result = await client.editImage.run({
 | Model | Description | Use Case |
 |-------|-------------|----------|
 | `nano-banana` | Base model | Fast, cost-efficient generation |
-| `nano-banana-pro` | Pro model | Higher fidelity + resolution control |
+| `nano-banana-pro` | Pro model | Higher fidelity + output resolution control |
 | `nano-banana-2` | V2 model | Long prompts (≤20k chars), ≤14 reference images, extra aspect ratios |
 | `nano-banana-edit` | Edit model | Prompt-based image editing |
 
 ## Aspect Ratios and Sizes
 
-### Base Model (`image_size`)
+### Base/Edit Aspect Ratio
 
 - `1:1`, `9:16`, `16:9`, `3:4`, `4:3`, `3:2`, `2:3`, `5:4`, `4:5`, `21:9`, `auto`
 
@@ -155,9 +155,9 @@ const result = await client.editImage.run({
 
 - `1:1`, `2:3`, `3:2`, `3:4`, `4:3`, `4:5`, `5:4`, `9:16`, `16:9`, `21:9`, `auto`
 
-### Pro Model Resolution
+### Pro/V2 Output Resolution
 
-- `1K`, `2K`, `4K`
+- `1k`, `2k`, `4k`
 
 ## Output Formats
 
@@ -209,7 +209,7 @@ Webhook payload on completion:
 {
   id: string;
   status: 'completed' | 'failed';
-  result_urls?: string[];
+  images?: Array<{ url: string; origin_url?: string }>;
   error?: string;
 }
 ```

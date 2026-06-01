@@ -21,7 +21,7 @@ describe('EditImage', () => {
       const result = await editImage.create({
         model: 'nano-banana-edit',
         prompt: 'Transform into watercolor painting',
-        image_urls: ['https://example.com/input.jpg'],
+        source_image_urls: ['https://cdn.runapi.ai/public/samples/input.jpg'],
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -31,7 +31,7 @@ describe('EditImage', () => {
           body: {
             model: 'nano-banana-edit',
             prompt: 'Transform into watercolor painting',
-            image_urls: ['https://example.com/input.jpg'],
+            source_image_urls: ['https://cdn.runapi.ai/public/samples/input.jpg'],
           },
         }
       );
@@ -46,10 +46,10 @@ describe('EditImage', () => {
       await editImage.create({
         model: 'nano-banana-edit',
         prompt: 'Add flying cars',
-        image_urls: ['https://example.com/photo.jpg'],
+        source_image_urls: ['https://cdn.runapi.ai/public/samples/photo.jpg'],
         callback_url: 'https://example.com/callback',
         output_format: 'png',
-        image_size: '16:9',
+        aspect_ratio: '16:9',
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -59,10 +59,10 @@ describe('EditImage', () => {
           body: {
             model: 'nano-banana-edit',
             prompt: 'Add flying cars',
-            image_urls: ['https://example.com/photo.jpg'],
+            source_image_urls: ['https://cdn.runapi.ai/public/samples/photo.jpg'],
             callback_url: 'https://example.com/callback',
             output_format: 'png',
-            image_size: '16:9',
+            aspect_ratio: '16:9',
           },
         }
       );
@@ -76,16 +76,16 @@ describe('EditImage', () => {
       await editImage.create({
         model: 'nano-banana-edit',
         prompt: 'Create a collage',
-        image_urls: [
-          'https://example.com/photo1.jpg',
-          'https://example.com/photo2.jpg',
-          'https://example.com/photo3.jpg',
+        source_image_urls: [
+          'https://cdn.runapi.ai/public/samples/photo-1.jpg',
+          'https://cdn.runapi.ai/public/samples/photo-2.jpg',
+          'https://cdn.runapi.ai/public/samples/photo-3.jpg',
         ],
       });
 
       const callArgs = vi.mocked(mockHttp.request).mock.calls[0];
-      expect(callArgs[2]?.body).toHaveProperty('image_urls');
-      expect((callArgs[2]?.body as any).image_urls).toHaveLength(3);
+      expect(callArgs[2]?.body).toHaveProperty('source_image_urls');
+      expect((callArgs[2]?.body as any).source_image_urls).toHaveLength(3);
     });
   });
 
@@ -114,7 +114,7 @@ describe('EditImage', () => {
         id: 'task-123',
         status: 'completed',
         model: 'nano-banana-edit',
-        result_urls: ['https://example.com/edited.png'],
+        images: [{ url: 'https://cdn.runapi.ai/public/samples/result.png' }],
       };
       vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
 
@@ -122,7 +122,7 @@ describe('EditImage', () => {
       const result = await editImage.get('task-123');
 
       expect(result.status).toBe('completed');
-      expect(result.result_urls).toEqual(['https://example.com/edited.png']);
+      expect(result.images).toEqual([{ url: 'https://cdn.runapi.ai/public/samples/result.png' }]);
     });
 
     it('should return failed status with error', async () => {
@@ -154,7 +154,7 @@ describe('EditImage', () => {
         id: 'task-123',
         status: 'completed',
         model: 'nano-banana-edit',
-        result_urls: ['https://example.com/edited.png'],
+        images: [{ url: 'https://cdn.runapi.ai/public/samples/result.png' }],
       };
 
       vi.mocked(mockHttp.request)
@@ -166,11 +166,11 @@ describe('EditImage', () => {
       const result = await editImage.run({
         model: 'nano-banana-edit',
         prompt: 'Edit this image',
-        image_urls: ['https://example.com/input.jpg'],
+        source_image_urls: ['https://cdn.runapi.ai/public/samples/input.jpg'],
       });
 
       expect(result.status).toBe('completed');
-      expect(result.result_urls).toEqual(['https://example.com/edited.png']);
+      expect(result.images).toEqual([{ url: 'https://cdn.runapi.ai/public/samples/result.png' }]);
     });
   });
 });
