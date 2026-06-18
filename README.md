@@ -216,6 +216,10 @@ Webhook payload on completion:
 
 For full nano banana api documentation including all parameters and response formats, visit https://runapi.ai/docs#nano-banana.
 
+## Generated file storage
+
+RunAPI-generated file URLs are temporary. Download and store generated images, videos, audio, or other files in your own durable storage within 7 days; do not treat returned URLs as long-term assets.
+
 ## License
 
 MIT

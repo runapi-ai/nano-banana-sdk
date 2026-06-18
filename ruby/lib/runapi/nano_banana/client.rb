@@ -2,23 +2,25 @@
 
 module RunApi
   module NanoBanana
-    # NanoBanana image generation API client.
+    # NanoBanana image generation and editing API client.
+    #
+    # Three generation tiers: standard (fast), pro (higher resolution, more
+    # reference images), and v2 (longest prompts, extreme aspect ratios, up to
+    # 14 reference images). Editing uses the dedicated +nano-banana-edit+ model.
     #
     # @example
     #   client = RunApi::NanoBanana::Client.new(api_key: "your-api-key")
     #   result = client.text_to_image.run(
-    #     model: "flux-kontext-pro", prompt: "A futuristic cityscape"
+    #     model: "nano-banana-pro", prompt: "A futuristic cityscape"
     #   )
-    class Client
-      # @return [Resources::TextToImage] Image generation operations.
-      # @return [Resources::EditImage] Image editing operations.
-      attr_reader :text_to_image, :edit_image
+    class Client < RunApi::Core::Client
+      # @return [Resources::TextToImage] Generate images from text prompts with optional reference image guidance.
+      attr_reader :text_to_image
+      # @return [Resources::EditImage] Edit existing images using text prompts and source images.
+      attr_reader :edit_image
 
       def initialize(api_key: nil, **options)
-        @api_key = Core::Auth.resolve_api_key(api_key)
-
-        client_options = Core::ClientOptions.new(api_key: @api_key, **options)
-        http = client_options.http_client || Core::HttpClient.new(client_options)
+        super
         @text_to_image = Resources::TextToImage.new(http)
         @edit_image = Resources::EditImage.new(http)
       end
