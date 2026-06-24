@@ -47,17 +47,10 @@ module RunApi
         private
 
         def validate_params!(params)
-          raise Core::ValidationError, "model is required" unless param(params, :model)
+          validate_contract!(CONTRACT["edit-image"], params)
+
           raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
           raise Core::ValidationError, "source_image_urls is required" unless param(params, :source_image_urls)
-
-          model = param(params, :model)
-          unless Types::EDIT_MODELS.include?(model)
-            raise Core::ValidationError, "Invalid model: #{model}. Must be one of: #{Types::EDIT_MODELS.join(", ")}"
-          end
-
-          validate_optional!(params, :output_format, Types::OUTPUT_FORMATS)
-          validate_optional!(params, :aspect_ratio, Types::BASE_ASPECT_RATIOS)
         end
       end
     end

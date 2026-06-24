@@ -7,13 +7,13 @@ This nano banana api README is the Ruby package guide inside the public `nano-ba
 ## Install
 
 ```bash
-gem install runapi-nano-banana
+gem install runapi-nano_banana
 ```
 
 ## Quick start
 
 ```ruby
-require "runapi-nano-banana"
+require "runapi-nano_banana"
 
 client = RunApi::NanoBanana::Client.new
 task = client.generations.create(

@@ -4,14 +4,6 @@ from __future__ import annotations
 
 from runapi.core import BaseModel, TaskResponse, optional, required
 
-GENERATION_MODELS = ["nano-banana", "nano-banana-pro", "nano-banana-2"]
-EDIT_MODELS = ["nano-banana-edit"]
-
-BASE_ASPECT_RATIOS = ["1:1", "9:16", "16:9", "3:4", "4:3", "3:2", "2:3", "5:4", "4:5", "21:9", "auto"]
-ASPECT_RATIOS = ["1:1", "1:4", "1:8", "2:3", "3:2", "3:4", "4:1", "4:3", "4:5", "5:4", "8:1", "9:16", "16:9", "21:9", "auto"]
-OUTPUT_RESOLUTIONS = ["1k", "2k", "4k"]
-OUTPUT_FORMATS = ["png", "jpg", "jpeg"]
-
 
 class Image(BaseModel):
     """A generated image reference."""

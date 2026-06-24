@@ -1,7 +1,10 @@
 {
   "name": "@runapi.ai/nano-banana",
+  "runapi": {
+    "slug": "nano-banana"
+  },
   "version": "0.2.6",
-  "description": "RunAPI Nano Banana SDK for JavaScript, Ruby, and Go",
+  "description": "RunAPI Nano Banana SDK for text-to-image and image editing workflows in JavaScript, Python, Ruby, Go, and Java",
   "main": "./dist/index.js",
   "module": "./dist/index.mjs",
   "types": "./dist/index.d.ts",
@@ -50,7 +53,15 @@
     "sdk",
     "typescript",
     "ruby",
-    "golang"
+    "golang",
+    "java",
+    "python",
+    "maven",
+    "gradle",
+    "image-generation",
+    "text-to-image",
+    "image-api",
+    "nano-banana-api"
   ],
   "author": "RunAPI",
   "license": "Apache-2.0",

@@ -135,7 +135,7 @@ def test_edit_run_narrows_completed_type():
 
 def test_requires_model():
     client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model is required"):
+    with pytest.raises(ValidationError, match="model must be one of: nano-banana, nano-banana-2, nano-banana-pro"):
         client.text_to_image.create(prompt="hi there")
 
 
@@ -147,20 +147,20 @@ def test_requires_prompt():
 
 def test_rejects_unknown_model():
     client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid model: nope"):
+    with pytest.raises(ValidationError, match="model must be one of: nano-banana, nano-banana-2, nano-banana-pro"):
         client.text_to_image.create(model="nope", prompt="hi there")
 
 
 def test_rejects_invalid_aspect_ratio():
     client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid aspect_ratio"):
+    with pytest.raises(ValidationError, match="aspect_ratio must be one of"):
         client.text_to_image.create(model="nano-banana", prompt="hi there", aspect_ratio="7:7")
 
 
 def test_rejects_invalid_output_resolution():
     client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid output_resolution"):
-        client.text_to_image.create(model="nano-banana", prompt="hi there", output_resolution="8k")
+    with pytest.raises(ValidationError, match="output_resolution must be one of"):
+        client.text_to_image.create(model="nano-banana-2", prompt="hi there", output_resolution="8k")
 
 
 def test_edit_requires_source_image_urls():
@@ -171,7 +171,7 @@ def test_edit_requires_source_image_urls():
 
 def test_edit_rejects_unknown_model():
     client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="Invalid model"):
+    with pytest.raises(ValidationError, match="model must be one of: nano-banana-edit"):
         client.edit_image.create(
             model="nano-banana", prompt="brighten it", source_image_urls=["https://x/a.png"]
         )

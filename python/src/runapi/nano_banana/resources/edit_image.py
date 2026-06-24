@@ -6,10 +6,8 @@ from typing import Any, Dict
 
 from runapi.core import Resource, ValidationError
 
+from ..contract_gen import CONTRACT
 from ..types import (
-    BASE_ASPECT_RATIOS,
-    EDIT_MODELS,
-    OUTPUT_FORMATS,
     CompletedEditImageResponse,
     EditImageResponse,
 )
@@ -60,16 +58,9 @@ class EditImage(Resource):
         return self._request("get", f"{self.ENDPOINT}/{id}")
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
-        if not params.get("model"):
-            raise ValidationError("model is required")
+        self._validate_contract(CONTRACT["edit-image"], params)
+
         if not params.get("prompt"):
             raise ValidationError("prompt is required")
         if not params.get("source_image_urls"):
             raise ValidationError("source_image_urls is required")
-
-        model = params.get("model")
-        if model not in EDIT_MODELS:
-            raise ValidationError(f"Invalid model: {model}. Must be one of: {', '.join(EDIT_MODELS)}")
-
-        self._validate_optional(params, "output_format", OUTPUT_FORMATS)
-        self._validate_optional(params, "aspect_ratio", BASE_ASPECT_RATIOS)

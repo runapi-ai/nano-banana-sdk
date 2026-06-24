@@ -2,6 +2,7 @@
 
 require "runapi/core"
 require_relative "nano_banana/types"
+require_relative "nano_banana/contract_gen"
 require_relative "nano_banana/resources/text_to_image"
 require_relative "nano_banana/resources/edit_image"
 require_relative "nano_banana/client"

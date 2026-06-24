@@ -6,11 +6,8 @@ from typing import Any, Dict
 
 from runapi.core import Resource, ValidationError
 
+from ..contract_gen import CONTRACT
 from ..types import (
-    ASPECT_RATIOS,
-    GENERATION_MODELS,
-    OUTPUT_FORMATS,
-    OUTPUT_RESOLUTIONS,
     CompletedTextToImageResponse,
     TextToImageResponse,
 )
@@ -61,15 +58,7 @@ class TextToImage(Resource):
         return self._request("get", f"{self.ENDPOINT}/{id}")
 
     def _validate_params(self, params: Dict[str, Any]) -> None:
-        if not params.get("model"):
-            raise ValidationError("model is required")
+        self._validate_contract(CONTRACT["text-to-image"], params)
+
         if not params.get("prompt"):
             raise ValidationError("prompt is required")
-
-        model = params.get("model")
-        if model not in GENERATION_MODELS:
-            raise ValidationError(f"Invalid model: {model}. Must be one of: {', '.join(GENERATION_MODELS)}")
-
-        self._validate_optional(params, "aspect_ratio", ASPECT_RATIOS)
-        self._validate_optional(params, "output_resolution", OUTPUT_RESOLUTIONS)
-        self._validate_optional(params, "output_format", OUTPUT_FORMATS)
