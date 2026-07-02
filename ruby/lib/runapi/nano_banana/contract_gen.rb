@@ -12,6 +12,9 @@ module RunApi
             },
             "output_format" => {
               "enum" => ["png", "jpeg"]
+            },
+            "source_image_urls" => {
+              "required" => true
             }
           }
         }

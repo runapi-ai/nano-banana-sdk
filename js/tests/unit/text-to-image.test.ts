@@ -73,7 +73,7 @@ describe('TextToImage', () => {
       await textToImage.create({
         model: 'nano-banana',
         prompt: 'Test image',
-        callback_url: 'https://example.com/callback',
+        callback_url: 'https://your-domain.com/api/callback',
         output_format: 'png',
         reference_image_urls: ['https://cdn.runapi.ai/public/samples/input.jpg'],
       });
@@ -85,7 +85,7 @@ describe('TextToImage', () => {
           body: {
             model: 'nano-banana',
             prompt: 'Test image',
-            callback_url: 'https://example.com/callback',
+            callback_url: 'https://your-domain.com/api/callback',
             output_format: 'png',
             reference_image_urls: ['https://cdn.runapi.ai/public/samples/input.jpg'],
           },

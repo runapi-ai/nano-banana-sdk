@@ -122,6 +122,7 @@ class NanoBananaClientTest {
               EditImageParams.builder()
                   .model(EditImageModel.NANO_BANANA_EDIT)
                   .prompt("A small red cube on a plain white table, studio product photo")
+                  .sourceImageUrls(java.util.Arrays.asList("https://cdn.runapi.ai/public/samples/image.jpg"))
                   .build()
       ));
 
@@ -131,6 +132,7 @@ class NanoBananaClientTest {
               EditImageParams.builder()
                   .model(EditImageModel.NANO_BANANA_EDIT)
                   .prompt("A small red cube on a plain white table, studio product photo")
+                  .sourceImageUrls(java.util.Arrays.asList("https://cdn.runapi.ai/public/samples/image.jpg"))
                   .build(),
           RequestOptions.none()));
 
@@ -150,6 +152,7 @@ class NanoBananaClientTest {
               EditImageParams.builder()
                   .model(EditImageModel.NANO_BANANA_EDIT)
                   .prompt("A small red cube on a plain white table, studio product photo")
+                  .sourceImageUrls(java.util.Arrays.asList("https://cdn.runapi.ai/public/samples/image.jpg"))
                   .build(),
           RequestOptions.builder().pollingInterval(Duration.ofMillis(1)).pollingMaxWait(Duration.ofSeconds(1)).build());
       assertNotNull(runResponse);
@@ -162,6 +165,7 @@ class NanoBananaClientTest {
               EditImageParams.builder()
                   .model(EditImageModel.NANO_BANANA_EDIT)
                   .prompt("A small red cube on a plain white table, studio product photo")
+                  .sourceImageUrls(java.util.Arrays.asList("https://cdn.runapi.ai/public/samples/image.jpg"))
                   .build(),
           RequestOptions.builder().pollingInterval(Duration.ofMillis(1)).pollingMaxWait(Duration.ofSeconds(1)).build()));
     }

@@ -47,7 +47,7 @@ describe('EditImage', () => {
         model: 'nano-banana-edit',
         prompt: 'Add flying cars',
         source_image_urls: ['https://cdn.runapi.ai/public/samples/photo.jpg'],
-        callback_url: 'https://example.com/callback',
+        callback_url: 'https://your-domain.com/api/callback',
         output_format: 'png',
         aspect_ratio: '16:9',
       });
@@ -60,7 +60,7 @@ describe('EditImage', () => {
             model: 'nano-banana-edit',
             prompt: 'Add flying cars',
             source_image_urls: ['https://cdn.runapi.ai/public/samples/photo.jpg'],
-            callback_url: 'https://example.com/callback',
+            callback_url: 'https://your-domain.com/api/callback',
             output_format: 'png',
             aspect_ratio: '16:9',
           },

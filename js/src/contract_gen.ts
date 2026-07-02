@@ -25,6 +25,9 @@ export const contract = {
             "png",
             "jpeg"
           ]
+        },
+        "source_image_urls": {
+          "required": true
         }
       }
     }

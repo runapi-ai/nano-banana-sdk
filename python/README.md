@@ -1,8 +1,8 @@
 # Nano Banana Python SDK for RunAPI
 
-The Nano Banana Python SDK is the language-specific package for Nano Banana on RunAPI. Use this nano banana package for text-to-image, image editing, and creative production flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in Python.
+The Nano Banana Python SDK is the language-specific package for Nano Banana on RunAPI. Use this package for image generation, image editing, and creative production workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in Python.
 
-This nano banana README is the Python package guide inside the public `nano-banana-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/nano-banana; for API reference, use https://runapi.ai/docs#nano-banana; for SDK docs, use https://runapi.ai/docs#sdk-nano-banana.
+This README is the Python package guide inside the public `nano-banana-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/nano-banana; for API reference, use https://runapi.ai/docs#nano-banana; for SDK docs, use https://runapi.ai/docs#sdk-nano-banana.
 
 ## Install
 
@@ -28,7 +28,7 @@ status = client.text_to_image.get(task.id)
 edit = client.edit_image.create(
     model="nano-banana-edit",
     prompt="Make it golden hour",
-    source_image_urls=["https://example.com/source.jpg"],
+    source_image_urls=["https://cdn.runapi.ai/public/samples/image.jpg"],
 )
 ```
 

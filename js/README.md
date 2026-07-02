@@ -1,8 +1,8 @@
-# Nano Banana API JavaScript SDK for RunAPI
+# Nano Banana JavaScript SDK for RunAPI
 
-The nano banana api JavaScript SDK is the language-specific package for Nano Banana on RunAPI. Use this nano banana api package for text-to-image, image editing, and creative production flows when your application needs JSON request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
+The Nano Banana JavaScript SDK is the language-specific package for Nano Banana on RunAPI. Use this package for image generation, image editing, and creative production workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
 
-This nano banana api README is the JavaScript package guide inside the public `nano-banana-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/nano-banana; for API reference, use https://runapi.ai/docs#nano-banana; for SDK docs, use https://runapi.ai/docs#sdk-nano-banana.
+This README is the JavaScript package guide inside the public `nano-banana-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/nano-banana; for API reference, use https://runapi.ai/docs#nano-banana; for SDK docs, use https://runapi.ai/docs#sdk-nano-banana.
 
 ## Install
 
@@ -16,10 +16,10 @@ npm install @runapi.ai/nano-banana
 import { NanoBananaClient } from '@runapi.ai/nano-banana';
 
 const client = new NanoBananaClient();
-const task = await client.generations.create({
+const task = await client.textToImage.create({
   // Pass the Nano Banana JSON request body from https://runapi.ai/docs#nano-banana.
 });
-const status = await client.generations.get(task.id);
+const status = await client.textToImage.get(task.id);
 ```
 
 Use `create` when you want to submit a task and return quickly, `get` when you need the latest task state, and `run` when a script should create and poll until completion. In web request handlers, prefer `create` plus webhook or later `get` polling so a worker is not held open.
@@ -28,7 +28,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ## Language notes
 
-Use the TypeScript types in `src/types.ts` and the resource classes under `src/resources` when building image applications. The available resources include generations, and edits. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
+Use the TypeScript types in `src/types.ts` and the resource classes under `src/resources` when building image applications. The available resources are `textToImage` and `editImage`. Keep `RUNAPI_API_KEY` in the environment or your secret manager; never commit API keys or callback secrets.
 
 ## Links
 
