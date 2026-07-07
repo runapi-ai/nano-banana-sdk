@@ -19,15 +19,16 @@ type OutputFormat string
 type TaskStatus string
 
 // TextToImageParams configures a generation request. ReferenceImageURLs provide
-// optional visual guidance; the maximum count varies by model variant.
+// optional visual guidance; prompt length, output controls, and reference count
+// vary by model variant.
 type TextToImageParams struct {
 	Model              TextToImageModel `json:"model" help:"required; model slug"`
-	Prompt             string           `json:"prompt" help:"required; image description (standard/pro <=5000 chars, v2 <=20000 chars)"`
+	Prompt             string           `json:"prompt" help:"required; image description (standard/pro <=5000 chars, v2/lite <=20000 chars)"`
 	CallbackURL        string           `json:"callback_url,omitempty" help:"optional; webhook URL"`
-	OutputFormat       OutputFormat     `json:"output_format,omitempty" help:"optional; output format"`
-	AspectRatio        AspectRatio      `json:"aspect_ratio,omitempty" help:"optional; output aspect ratio"`
-	OutputResolution   OutputResolution `json:"output_resolution,omitempty" help:"optional; output resolution; pro/v2 default 1k"`
-	ReferenceImageURLs []string         `json:"reference_image_urls,omitempty" help:"optional; reference image URLs (standard/pro <=8, v2 <=14; <=30MB each)"`
+	OutputFormat       OutputFormat     `json:"output_format,omitempty" help:"optional; output format; not supported by nano-banana-2-lite"`
+	AspectRatio        AspectRatio      `json:"aspect_ratio,omitempty" help:"optional; required for nano-banana-2-lite; output aspect ratio"`
+	OutputResolution   OutputResolution `json:"output_resolution,omitempty" help:"optional; output resolution; pro/v2 default 1k; not supported by nano-banana-2-lite"`
+	ReferenceImageURLs []string         `json:"reference_image_urls,omitempty" help:"optional; reference image URLs (standard/pro <=8, v2 <=14, lite <=10; <=30MB each)"`
 }
 
 // EditImageParams configures an image editing request. Requires source images to edit.

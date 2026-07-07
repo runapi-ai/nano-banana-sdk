@@ -60,6 +60,66 @@ func TestTextToImageCreateSendsCorrectRequest(t *testing.T) {
 	}
 }
 
+func TestTextToImageCreateSendsLiteRequest(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	_, err := client.TextToImage.Create(context.Background(), TextToImageParams{
+		Model:              "nano-banana-2-lite",
+		Prompt:             "a cinematic meadow",
+		AspectRatio:        "auto",
+		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/image.jpg"},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body, ok := stub.body.(map[string]any)
+	if !ok {
+		t.Fatalf("expected flat body map, got %T", stub.body)
+	}
+	if body["model"] != "nano-banana-2-lite" {
+		t.Fatalf("unexpected model: %v", body["model"])
+	}
+	if body["aspect_ratio"] != "auto" {
+		t.Fatalf("unexpected aspect_ratio: %v", body["aspect_ratio"])
+	}
+	if _, ok := body["output_resolution"]; ok {
+		t.Fatal("expected output_resolution to be absent")
+	}
+	if _, ok := body["output_format"]; ok {
+		t.Fatal("expected output_format to be absent")
+	}
+}
+
+func TestTextToImageCreateRejectsLiteOutputControls(t *testing.T) {
+	client := NewClientWithHTTP(&stubHTTPClient{})
+	_, err := client.TextToImage.Create(context.Background(), TextToImageParams{
+		Model:            "nano-banana-2-lite",
+		Prompt:           "a cinematic meadow",
+		AspectRatio:      "auto",
+		OutputResolution: "1k",
+	})
+	if err == nil {
+		t.Fatal("expected validation error")
+	}
+	if err.Error() != "output_resolution is not allowed when model is nano-banana-2-lite" {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
+func TestTextToImageCreateRequiresLiteAspectRatio(t *testing.T) {
+	client := NewClientWithHTTP(&stubHTTPClient{})
+	_, err := client.TextToImage.Create(context.Background(), TextToImageParams{
+		Model:  "nano-banana-2-lite",
+		Prompt: "a cinematic meadow",
+	})
+	if err == nil {
+		t.Fatal("expected validation error")
+	}
+	if err.Error() != "aspect_ratio is required" {
+		t.Fatalf("unexpected error: %v", err)
+	}
+}
+
 func TestEditImageCreateSendsCorrectRequest(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)

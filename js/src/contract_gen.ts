@@ -36,6 +36,7 @@ export const contract = {
     "models": [
       "nano-banana",
       "nano-banana-2",
+      "nano-banana-2-lite",
       "nano-banana-pro"
     ],
     "fields_by_model": {
@@ -98,6 +99,34 @@ export const contract = {
           ]
         }
       },
+      "nano-banana-2-lite": {
+        "aspect_ratio": {
+          "enum": [
+            "1:1",
+            "1:4",
+            "1:8",
+            "2:3",
+            "3:2",
+            "3:4",
+            "4:1",
+            "4:3",
+            "4:5",
+            "5:4",
+            "8:1",
+            "9:16",
+            "16:9",
+            "21:9",
+            "auto"
+          ],
+          "required": true
+        },
+        "prompt": {
+          "required": true,
+          "min": 1,
+          "max": 20000,
+          "length": true
+        }
+      },
       "nano-banana-pro": {
         "aspect_ratio": {
           "enum": [
@@ -129,6 +158,17 @@ export const contract = {
           ]
         }
       }
-    }
+    },
+    "rules": [
+      {
+        "when": {
+          "model": "nano-banana-2-lite"
+        },
+        "forbidden": [
+          "output_resolution",
+          "output_format"
+        ]
+      }
+    ]
   }
 } as const;

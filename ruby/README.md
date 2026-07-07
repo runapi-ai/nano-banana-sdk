@@ -7,13 +7,13 @@ This README is the Ruby package guide inside the public `nano-banana-sdk` reposi
 ## Install
 
 ```bash
-gem install runapi-nano_banana
+gem install runapi-nano-banana
 ```
 
 ## Quick start
 
 ```ruby
-require "runapi-nano_banana"
+require "runapi/nano_banana"
 
 client = RunApi::NanoBanana::Client.new
 task = client.text_to_image.create(

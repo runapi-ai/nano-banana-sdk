@@ -7,14 +7,14 @@
 </h3>
 
 <p align="center">
-  Nano Banana API SDKs for JavaScript, Python, Ruby, Go, and Java on RunAPI.
+  Nano Banana API SDKs for JavaScript, Python, Ruby, Go, Java, and PHP on RunAPI.
 </p>
 
 <div align="center">
 
 [![npm](https://img.shields.io/npm/v/@runapi.ai/nano-banana)](https://www.npmjs.com/package/@runapi.ai/nano-banana)
 [![PyPI](https://img.shields.io/pypi/v/runapi-nano-banana)](https://pypi.org/project/runapi-nano-banana/)
-[![RubyGems](https://img.shields.io/gem/v/runapi-nano_banana)](https://rubygems.org/gems/runapi-nano_banana)
+[![RubyGems](https://img.shields.io/gem/v/runapi-nano-banana)](https://rubygems.org/gems/runapi-nano-banana)
 [![Go Reference](https://pkg.go.dev/badge/github.com/runapi-ai/nano-banana-sdk/go.svg)](https://pkg.go.dev/github.com/runapi-ai/nano-banana-sdk/go)
 [![Maven Central](https://img.shields.io/maven-central/v/ai.runapi/runapi-nano-banana)](https://central.sonatype.com/artifact/ai.runapi/runapi-nano-banana)
 [![License](https://img.shields.io/github/license/runapi-ai/nano-banana-sdk)](https://github.com/runapi-ai/nano-banana-sdk/blob/main/LICENSE)
@@ -22,16 +22,16 @@
 </div>
 <br/>
 
-The Nano Banana API SDK packages JavaScript, Python, Ruby, Go, and Java clients for Nano Banana on RunAPI. Use it for text-to-image and image editing workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
+The Nano Banana API SDK packages JavaScript, Python, Ruby, Go, Java, and PHP clients for Nano Banana on RunAPI. Use it for text-to-image and image editing workflows when your app needs typed request builders, predictable task polling, file upload helpers, account helpers, and consistent RunAPI errors.
 
-Nano Banana is listed in the RunAPI model catalog at https://runapi.ai/models/nano-banana. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `nano-banana-sdk` repository groups the language packages, examples, CI, and release tags for this model.
+Nano Banana is listed in the RunAPI model catalog at https://runapi.ai/models/nano-banana. Variant pages below carry pricing, rate-limit, and commercial-usage details. The public `nano-banana-sdk` repository groups the non-PHP language packages, examples, CI, and release tags for this model. The PHP package is released from a split Composer repository.
 
 ## Install
 
 ```bash
 npm install @runapi.ai/nano-banana
 pip install runapi-nano-banana
-gem install runapi-nano_banana
+gem install runapi-nano-banana
 go get github.com/runapi-ai/nano-banana-sdk/go@latest
 ```
 
@@ -62,6 +62,8 @@ dependencies {
 }
 ```
 
+The PHP package is published from the split Composer repository as `runapi-ai/nano-banana`; see https://github.com/runapi-ai/nano-banana-php for PHP install and examples.
+
 ## What you can build
 
 - Build apps, agent workflows, batch jobs, and production services around Nano Banana requests.
@@ -84,10 +86,9 @@ NanoBananaClient client = NanoBananaClient.builder()
 
 CompletedTextToImageResponse result = client.textToImage().run(
     TextToImageParams.builder()
-        .model(TextToImageModel.NANO_BANANA)
+        .model(TextToImageModel.NANO_BANANA_2_LITE)
         .prompt("A realistic photo of a glass apple on blue fabric")
-        .aspectRatio("1:1")
-        .outputResolution("720p")
+        .aspectRatio("auto")
         .build()
 );
 ```
@@ -102,7 +103,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 
 - `js/` publishes `@runapi.ai/nano-banana`.
 - `python/` publishes `runapi-nano-banana`.
-- `ruby/` publishes `runapi-nano_banana` when RubyGems publishing resumes.
+- `ruby/` publishes `runapi-nano-banana`.
 - `go/` publishes `github.com/runapi-ai/nano-banana-sdk/go` and depends on `github.com/runapi-ai/core-sdk/go`.
 - `java/` publishes `ai.runapi:runapi-nano-banana` and depends on `ai.runapi:runapi-core`.
 
@@ -112,6 +113,7 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 - SDK docs: https://runapi.ai/docs#sdk-nano-banana
 - Product docs: https://runapi.ai/docs#nano-banana
 - SDK repository: https://github.com/runapi-ai/nano-banana-sdk
+- PHP package repository: https://github.com/runapi-ai/nano-banana-php
 - Skill repository: https://github.com/runapi-ai/nano-banana
 - Provider comparison: https://runapi.ai/providers/google
 - Full catalog: https://runapi.ai/models
@@ -123,6 +125,7 @@ Use the most specific Nano Banana variant page for pricing, rate limits, and com
 - [Pro](https://runapi.ai/models/nano-banana/pro)
 - [Edit](https://runapi.ai/models/nano-banana/edit)
 - [Nano Banana 2](https://runapi.ai/models/nano-banana/2)
+- [Nano Banana 2 Lite](https://runapi.ai/models/nano-banana/2-lite)
 
 Default pricing link for the Nano Banana SDK: https://runapi.ai/models/nano-banana/nano-banana
 
@@ -134,7 +137,7 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 
 ### Which package should I install for Nano Banana work?
 
-Install the model package for your language: `@runapi.ai/nano-banana` on npm, `runapi-nano-banana` on PyPI, `runapi-nano_banana` on RubyGems, `github.com/runapi-ai/nano-banana-sdk/go`, or `ai.runapi:runapi-nano-banana`. Install core SDK packages only when you are building shared SDK infrastructure.
+Install the model package for your language: `@runapi.ai/nano-banana` on npm, `runapi-nano-banana` on PyPI, `runapi-nano-banana` on RubyGems, `github.com/runapi-ai/nano-banana-sdk/go`, `ai.runapi:runapi-nano-banana` on Maven Central, or `runapi-ai/nano-banana` on Packagist. Install core SDK packages only when you are building shared SDK infrastructure.
 
 ### Where should public links point?
 

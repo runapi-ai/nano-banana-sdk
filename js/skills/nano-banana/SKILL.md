@@ -36,7 +36,7 @@ Generate and edit images with Nano Banana through RunAPI. The default path for o
 When integrating Nano Banana into an app, backend, worker, library, Rails service, Node service, Go service, webhook pipeline, or production workflow, start by checking the current SDK package and official usage. Confirm install commands, client methods (`create`, `get`, `run`), request fields, response shape, and error classes before using CLI help or raw HTTP examples. Use a RunAPI SDK package:
 
 - JavaScript / TypeScript: `@runapi.ai/nano-banana`
-- Ruby: `runapi-nano_banana`
+- Ruby: `runapi-nano-banana`
 - Go: `github.com/runapi-ai/nano-banana-sdk/go`
 
 ## CLI path
@@ -81,4 +81,4 @@ RunAPI-generated file URLs are temporary. Download and store generated images, v
 - [Pro](https://runapi.ai/models/nano-banana/pro.md)
 - [Edit](https://runapi.ai/models/nano-banana/edit.md)
 - [Nano Banana 2](https://runapi.ai/models/nano-banana/2.md)
-
+- [Nano Banana 2 Lite](https://runapi.ai/models/nano-banana/2-lite.md)

@@ -16,7 +16,7 @@ CONTRACT = {
         }
     },
     "text-to-image": {
-        "models": ["nano-banana", "nano-banana-2", "nano-banana-pro"],
+        "models": ["nano-banana", "nano-banana-2", "nano-banana-2-lite", "nano-banana-pro"],
         "fields_by_model": {
             "nano-banana": {
                 "aspect_ratio": {
@@ -37,6 +37,18 @@ CONTRACT = {
                     "enum": ["1k", "2k", "4k"]
                 }
             },
+            "nano-banana-2-lite": {
+                "aspect_ratio": {
+                    "enum": ["1:1", "1:4", "1:8", "2:3", "3:2", "3:4", "4:1", "4:3", "4:5", "5:4", "8:1", "9:16", "16:9", "21:9", "auto"],
+                    "required": True
+                },
+                "prompt": {
+                    "required": True,
+                    "min": 1,
+                    "max": 20000,
+                    "length": True
+                }
+            },
             "nano-banana-pro": {
                 "aspect_ratio": {
                     "enum": ["1:1", "2:3", "3:2", "3:4", "4:3", "4:5", "5:4", "9:16", "16:9", "21:9", "auto"]
@@ -48,6 +60,12 @@ CONTRACT = {
                     "enum": ["1k", "2k", "4k"]
                 }
             }
-        }
+        },
+        "rules": [{
+            "when": {
+                "model": "nano-banana-2-lite"
+            },
+            "forbidden": ["output_resolution", "output_format"]
+        }]
     }
 }

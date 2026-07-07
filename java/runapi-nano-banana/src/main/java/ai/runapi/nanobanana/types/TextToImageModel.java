@@ -8,6 +8,8 @@ public final class TextToImageModel extends NanobananaValue {
   public static final TextToImageModel NANO_BANANA = new TextToImageModel("nano-banana");
   /** nano-banana-2 model slug. */
   public static final TextToImageModel NANO_BANANA_2 = new TextToImageModel("nano-banana-2");
+  /** nano-banana-2-lite model slug. */
+  public static final TextToImageModel NANO_BANANA_2_LITE = new TextToImageModel("nano-banana-2-lite");
   /** nano-banana-pro model slug. */
   public static final TextToImageModel NANO_BANANA_PRO = new TextToImageModel("nano-banana-pro");
 

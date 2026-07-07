@@ -11,13 +11,10 @@ import ai.runapi.core.http.HttpResponse;
 import ai.runapi.core.http.HttpTransport;
 import ai.runapi.core.http.JsonRequestBody;
 import ai.runapi.core.json.Json;
-import ai.runapi.nanobanana.types.CompletedTextToImageResponse;
-import ai.runapi.nanobanana.types.TextToImageResponse;
 import ai.runapi.nanobanana.types.CompletedEditImageResponse;
 import ai.runapi.nanobanana.types.CompletedTextToImageResponse;
 import ai.runapi.nanobanana.types.EditImageModel;
 import ai.runapi.nanobanana.types.EditImageParams;
-import ai.runapi.nanobanana.types.EditImageResponse;
 import ai.runapi.nanobanana.types.TextToImageModel;
 import ai.runapi.nanobanana.types.TextToImageParams;
 import ai.runapi.nanobanana.types.TextToImageResponse;
@@ -61,6 +58,62 @@ class NanoBananaClientTest {
     assertEquals("/api/v1/nano_banana/text_to_image", transport.request.getPath());
     JsonNode body = bodyJson(transport.request);
     assertNotNull(body);
+  }
+
+  @Test
+  void createSendsLiteRequestShape() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_lite\",\"status\":\"processing\"}");
+    NanoBananaClient client = NanoBananaClient.builder().apiKey("sk-test").transport(transport).build();
+
+    client.textToImage().create(
+        TextToImageParams.builder()
+            .model(TextToImageModel.NANO_BANANA_2_LITE)
+            .prompt("A small red cube on a plain white table, studio product photo")
+            .aspectRatio("auto")
+            .referenceImageUrls(java.util.Arrays.asList("https://cdn.runapi.ai/public/samples/image.jpg"))
+            .build()
+    );
+
+    JsonNode body = bodyJson(transport.request);
+    assertEquals("nano-banana-2-lite", body.get("model").asText());
+    assertEquals("auto", body.get("aspect_ratio").asText());
+    assertEquals("https://cdn.runapi.ai/public/samples/image.jpg", body.get("reference_image_urls").get(0).asText());
+    assertEquals(false, body.has("output_resolution"));
+    assertEquals(false, body.has("output_format"));
+  }
+
+  @Test
+  void createRejectsLiteOutputControls() {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_lite\",\"status\":\"processing\"}");
+    NanoBananaClient client = NanoBananaClient.builder().apiKey("sk-test").transport(transport).build();
+
+    ValidationException error = assertThrows(
+        ValidationException.class,
+        () -> client.textToImage().create(
+            TextToImageParams.builder()
+                .model(TextToImageModel.NANO_BANANA_2_LITE)
+                .prompt("A small red cube on a plain white table, studio product photo")
+                .aspectRatio("auto")
+                .outputResolution("1k")
+                .build()));
+
+    assertEquals("output_resolution is not allowed when model is nano-banana-2-lite", error.getMessage());
+  }
+
+  @Test
+  void createRequiresLiteAspectRatio() {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_lite\",\"status\":\"processing\"}");
+    NanoBananaClient client = NanoBananaClient.builder().apiKey("sk-test").transport(transport).build();
+
+    ValidationException error = assertThrows(
+        ValidationException.class,
+        () -> client.textToImage().create(
+            TextToImageParams.builder()
+                .model(TextToImageModel.NANO_BANANA_2_LITE)
+                .prompt("A small red cube on a plain white table, studio product photo")
+                .build()));
+
+    assertEquals("aspect_ratio is required", error.getMessage());
   }
 
   @Test

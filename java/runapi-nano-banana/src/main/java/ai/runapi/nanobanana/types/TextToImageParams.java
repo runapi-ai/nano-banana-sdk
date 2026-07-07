@@ -4,7 +4,7 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Parameters for text to image operations. */
+/** Parameters for text to image operations. Field support varies by model variant. */
 public final class TextToImageParams {
   private final String model;
   private final String prompt;
@@ -86,25 +86,25 @@ public final class TextToImageParams {
       return this;
     }
 
-    /** Sets the output format. */
+    /** Sets the output format. Not supported by nano-banana-2-lite. */
     public Builder outputFormat(String value) {
       this.outputFormat = NanobananaParamUtils.requireNonBlank(value, "outputFormat");
       return this;
     }
 
-    /** Sets the output aspect ratio. */
+    /** Sets the output aspect ratio. Required for nano-banana-2-lite. */
     public Builder aspectRatio(String value) {
       this.aspectRatio = NanobananaParamUtils.requireNonBlank(value, "aspectRatio");
       return this;
     }
 
-    /** Sets the output resolution. */
+    /** Sets the output resolution. Not supported by nano-banana-2-lite. */
     public Builder outputResolution(String value) {
       this.outputResolution = NanobananaParamUtils.requireNonBlank(value, "outputResolution");
       return this;
     }
 
-    /** Sets the reference image URLs. */
+    /** Sets the reference image URLs. Lite accepts up to 10 images; other limits vary by model. */
     public Builder referenceImageUrls(List<String> value) {
       this.referenceImageUrls = value;
       return this;

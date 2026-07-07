@@ -75,7 +75,7 @@ describe('TextToImage', () => {
         prompt: 'Test image',
         callback_url: 'https://your-domain.com/api/callback',
         output_format: 'png',
-        reference_image_urls: ['https://cdn.runapi.ai/public/samples/input.jpg'],
+        reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
       });
 
       expect(mockHttp.request).toHaveBeenCalledWith(
@@ -87,10 +87,49 @@ describe('TextToImage', () => {
             prompt: 'Test image',
             callback_url: 'https://your-domain.com/api/callback',
             output_format: 'png',
-            reference_image_urls: ['https://cdn.runapi.ai/public/samples/input.jpg'],
+            reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
           },
         }
       );
+    });
+
+    it('should send correct request for lite model', async () => {
+      const mockResponse: TaskCreateResponse = { id: 'task-lite' };
+      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+      const textToImage = new TextToImage(mockHttp);
+      await textToImage.create({
+        model: 'nano-banana-2-lite',
+        prompt: 'A cinematic meadow scene',
+        aspect_ratio: 'auto',
+        reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+      });
+
+      expect(mockHttp.request).toHaveBeenCalledWith(
+        'POST',
+        '/api/v1/nano_banana/text_to_image',
+        {
+          body: {
+            model: 'nano-banana-2-lite',
+            prompt: 'A cinematic meadow scene',
+            aspect_ratio: 'auto',
+            reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+          },
+        }
+      );
+    });
+
+    it('should reject lite output controls from contract rules', async () => {
+      const textToImage = new TextToImage(mockHttp);
+
+      await expect(
+        textToImage.create({
+          model: 'nano-banana-2-lite',
+          prompt: 'A cinematic meadow scene',
+          aspect_ratio: 'auto',
+          output_resolution: '1k',
+        } as never)
+      ).rejects.toThrow('output_resolution is not allowed when model is nano-banana-2-lite');
     });
   });
 

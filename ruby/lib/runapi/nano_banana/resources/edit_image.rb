@@ -21,27 +21,27 @@ module RunApi
         #
         # @param params [Hash] edit parameters
         # @return [RunApi::NanoBanana::Types::CompletedEditImageResponse] completed edit with image results
-        def run(**params)
-          task = create(**params)
-          poll_until_complete { get(task.id) }
+        def run(options: nil, **params)
+          task = create(options: options, **params)
+          poll_until_complete { get(task.id, options: options) }
         end
 
         # Create an image edit task.
         #
         # @param params [Hash] edit parameters
         # @return [RunApi::NanoBanana::Types::EditImageResponse] task creation result with id
-        def create(**params)
+        def create(options: nil, **params)
           params = compact_params(params)
           validate_params!(params)
-          request(:post, ENDPOINT, body: params)
+          request(:post, ENDPOINT, body: params, options: options)
         end
 
         # Get edit status by task ID.
         #
         # @param id [String] task ID
         # @return [RunApi::NanoBanana::Types::EditImageResponse] current edit status
-        def get(id)
-          request(:get, "#{ENDPOINT}/#{id}")
+        def get(id, options: nil)
+          request(:get, "#{ENDPOINT}/#{id}", options: options)
         end
 
         private

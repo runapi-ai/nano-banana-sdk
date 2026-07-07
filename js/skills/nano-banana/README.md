@@ -21,7 +21,7 @@
 </div>
 <br/>
 
-Generate and edit images with Nano Banana standard, pro, and edit models. This skill helps Claude Code, Codex, Gemini CLI, Cursor, and 50+ agents integrate Nano Banana through RunAPI.
+Generate and edit images with Nano Banana standard, pro, v2, v2 lite, and edit models. This skill helps Claude Code, Codex, Gemini CLI, Cursor, and 50+ agents integrate Nano Banana through RunAPI.
 
 The canonical agent file is `skills/nano-banana/SKILL.md`.
 
@@ -74,6 +74,7 @@ const url = result.images[0].url;
 - [Pro](https://runapi.ai/models/nano-banana/pro)
 - [Edit](https://runapi.ai/models/nano-banana/edit)
 - [Nano Banana 2](https://runapi.ai/models/nano-banana/2)
+- [Nano Banana 2 Lite](https://runapi.ai/models/nano-banana/2-lite)
 
 ## Agent rules
 
