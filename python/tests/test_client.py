@@ -130,6 +130,30 @@ def test_edit_create_posts_compacted_body():
     assert isinstance(result, EditImageResponse)
 
 
+def test_edit_create_posts_lite_body():
+    fake = FakeHttp({"id": "t1", "status": "pending"})
+    client = NanoBananaClient(api_key="k", http_client=fake)
+    result = client.edit_image.create(
+        model="nano-banana-2-lite",
+        prompt="replace the background",
+        source_image_urls=["https://cdn.runapi.ai/public/samples/image.jpg"],
+        aspect_ratio="16:9",
+    )
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/nano_banana/edit_image",
+            {
+                "model": "nano-banana-2-lite",
+                "prompt": "replace the background",
+                "source_image_urls": ["https://cdn.runapi.ai/public/samples/image.jpg"],
+                "aspect_ratio": "16:9",
+            },
+        ),
+    ]
+    assert isinstance(result, EditImageResponse)
+
+
 def test_run_narrows_completed_type():
     fake = FakeHttp(
         {"id": "t1", "status": "pending"},
@@ -157,10 +181,14 @@ def test_edit_run_narrows_completed_type():
 # --- validation -----------------------------------------------------------
 
 
-def test_requires_model():
-    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model must be one of: nano-banana, nano-banana-2, nano-banana-2-lite, nano-banana-pro"):
-        client.text_to_image.create(prompt="hi there")
+def test_defaults_text_to_image_model():
+    fake = FakeHttp({"id": "t1", "status": "pending"})
+    client = NanoBananaClient(api_key="k", http_client=fake)
+    client.text_to_image.create(prompt="hi there", aspect_ratio="auto")
+
+    assert fake.calls == [
+        ("post", "/api/v1/nano_banana/text_to_image", {"model": "nano-banana-2-lite", "prompt": "hi there", "aspect_ratio": "auto"}),
+    ]
 
 
 def test_requires_prompt():
@@ -212,7 +240,40 @@ def test_edit_requires_source_image_urls():
 
 def test_edit_rejects_unknown_model():
     client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model must be one of: nano-banana-edit"):
+    with pytest.raises(ValidationError, match="model must be one of: nano-banana-2-lite, nano-banana-edit"):
         client.edit_image.create(
             model="nano-banana", prompt="brighten it", source_image_urls=["https://x/a.png"]
+        )
+
+
+def test_edit_defaults_model():
+    fake = FakeHttp({"id": "t1", "status": "pending"})
+    client = NanoBananaClient(api_key="k", http_client=fake)
+    client.edit_image.create(
+        prompt="brighten it", source_image_urls=["https://x/a.png"], aspect_ratio="16:9"
+    )
+
+    assert fake.calls == [
+        (
+            "post",
+            "/api/v1/nano_banana/edit_image",
+            {
+                "model": "nano-banana-2-lite",
+                "prompt": "brighten it",
+                "source_image_urls": ["https://x/a.png"],
+                "aspect_ratio": "16:9",
+            },
+        ),
+    ]
+
+
+def test_edit_rejects_lite_output_format():
+    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
+    with pytest.raises(ValidationError, match="output_format is not allowed when model is nano-banana-2-lite"):
+        client.edit_image.create(
+            model="nano-banana-2-lite",
+            prompt="brighten it",
+            source_image_urls=["https://x/a.png"],
+            aspect_ratio="auto",
+            output_format="png",
         )

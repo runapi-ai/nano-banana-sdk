@@ -87,6 +87,71 @@ describe('EditImage', () => {
       expect(callArgs[2]?.body).toHaveProperty('source_image_urls');
       expect((callArgs[2]?.body as any).source_image_urls).toHaveLength(3);
     });
+
+    it('should send correct request for lite edit model', async () => {
+      const mockResponse: TaskCreateResponse = { id: 'task-lite-edit' };
+      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+      const editImage = new EditImage(mockHttp);
+      await editImage.create({
+        model: 'nano-banana-2-lite',
+        prompt: 'Replace the background with a clean studio set',
+        source_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+        aspect_ratio: '16:9',
+      });
+
+      expect(mockHttp.request).toHaveBeenCalledWith(
+        'POST',
+        '/api/v1/nano_banana/edit_image',
+        {
+          body: {
+            model: 'nano-banana-2-lite',
+            prompt: 'Replace the background with a clean studio set',
+            source_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+            aspect_ratio: '16:9',
+          },
+        }
+      );
+    });
+
+    it('should default model to nano-banana-2-lite', async () => {
+      const mockResponse: TaskCreateResponse = { id: 'task-default-lite-edit' };
+      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+      const editImage = new EditImage(mockHttp);
+      await editImage.create({
+        prompt: 'Replace the background with a clean studio set',
+        source_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+        aspect_ratio: '16:9',
+      });
+
+      expect(mockHttp.request).toHaveBeenCalledWith(
+        'POST',
+        '/api/v1/nano_banana/edit_image',
+        {
+          body: {
+            model: 'nano-banana-2-lite',
+            prompt: 'Replace the background with a clean studio set',
+            source_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+            aspect_ratio: '16:9',
+          },
+        }
+      );
+    });
+
+    it('should reject lite edit output_format from contract rules', async () => {
+      const editImage = new EditImage(mockHttp);
+
+      await expect(
+        editImage.create({
+          model: 'nano-banana-2-lite',
+          prompt: 'Replace the background',
+          source_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+          aspect_ratio: 'auto',
+          output_format: 'png',
+        } as never)
+      ).rejects.toThrow('output_format is not allowed when model is nano-banana-2-lite');
+    });
   });
 
   describe('get', () => {

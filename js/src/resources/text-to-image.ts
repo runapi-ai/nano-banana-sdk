@@ -10,6 +10,7 @@ import type {
 } from '../types';
 
 const ENDPOINT = '/api/v1/nano_banana/text_to_image';
+const DEFAULT_MODEL = 'nano-banana-2-lite';
 
 /** Generates images from text prompts with optional reference image guidance. Model tier controls prompt length, resolution, and reference image limits. */
 export class TextToImage {
@@ -37,7 +38,7 @@ export class TextToImage {
    * @returns The task creation result with id.
    */
   async create(params: TextToImageParams, options?: RequestOptions): Promise<TaskCreateResponse> {
-    const body = compactParams(params);
+    const body = { model: DEFAULT_MODEL, ...compactParams(params) };
     validateParams(contract['text-to-image'] as ActionSchema, body as Record<string, unknown>);
     return this.http.request<TaskCreateResponse>('POST', ENDPOINT, {
       body,

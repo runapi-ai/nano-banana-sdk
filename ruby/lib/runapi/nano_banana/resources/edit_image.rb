@@ -4,11 +4,12 @@ module RunApi
   module NanoBanana
     module Resources
       # NanoBanana image editing resource.
-      # Edit existing images using text prompts and reference images.
+      # Edit existing images using text prompts and source images.
       class EditImage
         include RunApi::Core::ResourceHelpers
 
         ENDPOINT = "/api/v1/nano_banana/edit_image"
+        DEFAULT_MODEL = "nano-banana-2-lite"
 
         RESPONSE_CLASS = Types::EditImageResponse
         COMPLETED_RESPONSE_CLASS = Types::CompletedEditImageResponse
@@ -32,6 +33,7 @@ module RunApi
         # @return [RunApi::NanoBanana::Types::EditImageResponse] task creation result with id
         def create(options: nil, **params)
           params = compact_params(params)
+          params[:model] = DEFAULT_MODEL unless param(params, :model)
           validate_params!(params)
           request(:post, ENDPOINT, body: params, options: options)
         end

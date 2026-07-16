@@ -17,6 +17,7 @@ import (
 const (
 	textToImagePath = "/api/v1/nano_banana/text_to_image"
 	editImagePath   = "/api/v1/nano_banana/edit_image"
+	defaultModel    = "nano-banana-2-lite"
 )
 
 // Client is the NanoBanana image generation API client.
@@ -56,6 +57,7 @@ type EditImage struct{ http core.HTTPClient }
 func (r *TextToImage) Create(ctx context.Context, params TextToImageParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	body := core.CompactParams(params)
+	applyDefaultModel(body)
 	if err := core.ValidateParams(contractSchema["text-to-image"], body); err != nil {
 		return nil, err
 	}
@@ -78,10 +80,20 @@ func (r *TextToImage) Run(ctx context.Context, params TextToImageParams, opts ..
 func (r *EditImage) Create(ctx context.Context, params EditImageParams, opts ...option.RequestOption) (*core.TaskCreateResponse, error) {
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	body := core.CompactParams(params)
+	applyDefaultModel(body)
 	if err := core.ValidateParams(contractSchema["edit-image"], body); err != nil {
 		return nil, err
 	}
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, editImagePath, body, requestOptions)
+}
+
+func applyDefaultModel(body map[string]any) {
+	if body == nil {
+		return
+	}
+	if _, ok := body["model"]; !ok {
+		body["model"] = defaultModel
+	}
 }
 
 // Get fetches the current status of an edit-image task by id.

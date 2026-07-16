@@ -90,6 +90,22 @@ func TestTextToImageCreateSendsLiteRequest(t *testing.T) {
 	}
 }
 
+func TestTextToImageCreateDefaultsModelToLite(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	_, err := client.TextToImage.Create(context.Background(), TextToImageParams{
+		Prompt:      "a cinematic meadow",
+		AspectRatio: "auto",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["model"] != "nano-banana-2-lite" {
+		t.Fatalf("unexpected model: %v", body["model"])
+	}
+}
+
 func TestTextToImageCreateRejectsLiteOutputControls(t *testing.T) {
 	client := NewClientWithHTTP(&stubHTTPClient{})
 	_, err := client.TextToImage.Create(context.Background(), TextToImageParams{
@@ -144,6 +160,64 @@ func TestEditImageCreateSendsCorrectRequest(t *testing.T) {
 	}
 	if body["source_image_urls"] == nil {
 		t.Fatal("expected source_image_urls")
+	}
+}
+
+func TestEditImageCreateSendsLiteRequest(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	_, err := client.EditImage.Create(context.Background(), EditImageParams{
+		Model:           "nano-banana-2-lite",
+		Prompt:          "replace the background",
+		AspectRatio:     "16:9",
+		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["model"] != "nano-banana-2-lite" {
+		t.Fatalf("unexpected model: %v", body["model"])
+	}
+	if body["aspect_ratio"] != "16:9" {
+		t.Fatalf("unexpected aspect_ratio: %v", body["aspect_ratio"])
+	}
+	if _, ok := body["output_format"]; ok {
+		t.Fatal("expected output_format to be absent")
+	}
+}
+
+func TestEditImageCreateDefaultsModelToLite(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	_, err := client.EditImage.Create(context.Background(), EditImageParams{
+		Prompt:          "replace the background",
+		AspectRatio:     "16:9",
+		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	body := stub.body.(map[string]any)
+	if body["model"] != "nano-banana-2-lite" {
+		t.Fatalf("unexpected model: %v", body["model"])
+	}
+}
+
+func TestEditImageCreateRejectsLiteOutputFormat(t *testing.T) {
+	client := NewClientWithHTTP(&stubHTTPClient{})
+	_, err := client.EditImage.Create(context.Background(), EditImageParams{
+		Model:           "nano-banana-2-lite",
+		Prompt:          "replace the background",
+		AspectRatio:     "auto",
+		OutputFormat:    "png",
+		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
+	})
+	if err == nil {
+		t.Fatal("expected validation error")
+	}
+	if err.Error() != "output_format is not allowed when model is nano-banana-2-lite" {
+		t.Fatalf("unexpected error: %v", err)
 	}
 }
 

@@ -22,7 +22,7 @@ type TaskStatus string
 // optional visual guidance; prompt length, output controls, and reference count
 // vary by model variant.
 type TextToImageParams struct {
-	Model              TextToImageModel `json:"model" help:"required; model slug"`
+	Model              TextToImageModel `json:"model" help:"optional; defaults to nano-banana-2-lite"`
 	Prompt             string           `json:"prompt" help:"required; image description (standard/pro <=5000 chars, v2/lite <=20000 chars)"`
 	CallbackURL        string           `json:"callback_url,omitempty" help:"optional; webhook URL"`
 	OutputFormat       OutputFormat     `json:"output_format,omitempty" help:"optional; output format; not supported by nano-banana-2-lite"`
@@ -31,14 +31,16 @@ type TextToImageParams struct {
 	ReferenceImageURLs []string         `json:"reference_image_urls,omitempty" help:"optional; reference image URLs (standard/pro <=8, v2 <=14, lite <=10; <=30MB each)"`
 }
 
-// EditImageParams configures an image editing request. Requires source images to edit.
+// EditImageParams configures an image editing request. nano-banana-edit supports
+// output format control; nano-banana-2-lite requires aspect_ratio and does not
+// support output_format.
 type EditImageParams struct {
-	Model           EditImageModel `json:"model" help:"required; model slug"`
-	Prompt          string         `json:"prompt" help:"required; edit instruction (≤5000 chars)"`
+	Model           EditImageModel `json:"model" help:"optional; defaults to nano-banana-2-lite"`
+	Prompt          string         `json:"prompt" help:"required; edit instruction (nano-banana-edit <=5000 chars, lite <=20000 chars)"`
 	CallbackURL     string         `json:"callback_url,omitempty" help:"optional; webhook URL"`
-	OutputFormat    OutputFormat   `json:"output_format,omitempty" help:"optional; output format"`
-	AspectRatio     AspectRatio    `json:"aspect_ratio,omitempty" help:"optional; output aspect ratio"`
-	SourceImageURLs []string       `json:"source_image_urls" help:"required; source image URLs (≤10 images, ≤10MB each)"`
+	OutputFormat    OutputFormat   `json:"output_format,omitempty" help:"optional; output format for nano-banana-edit; not supported by nano-banana-2-lite"`
+	AspectRatio     AspectRatio    `json:"aspect_ratio,omitempty" help:"optional for nano-banana-edit, required for nano-banana-2-lite; output aspect ratio"`
+	SourceImageURLs []string       `json:"source_image_urls" help:"required; source image URLs (≤10 images)"`
 }
 
 // AsyncTaskResponse implements core.TaskResponse for async task polling.

@@ -83,6 +83,22 @@ class NanoBananaClientTest {
   }
 
   @Test
+  void createDefaultsModelToLite() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_lite\",\"status\":\"processing\"}");
+    NanoBananaClient client = NanoBananaClient.builder().apiKey("sk-test").transport(transport).build();
+
+    client.textToImage().create(
+        TextToImageParams.builder()
+            .prompt("A small red cube on a plain white table, studio product photo")
+            .aspectRatio("auto")
+            .build()
+    );
+
+    JsonNode body = bodyJson(transport.request);
+    assertEquals("nano-banana-2-lite", body.get("model").asText());
+  }
+
+  @Test
   void createRejectsLiteOutputControls() {
     CapturingTransport transport = new CapturingTransport("{\"id\":\"task_lite\",\"status\":\"processing\"}");
     NanoBananaClient client = NanoBananaClient.builder().apiKey("sk-test").transport(transport).build();
@@ -178,6 +194,14 @@ class NanoBananaClientTest {
                   .sourceImageUrls(java.util.Arrays.asList("https://cdn.runapi.ai/public/samples/image.jpg"))
                   .build()
       ));
+      assertNotNull(createClient.editImage().create(
+              EditImageParams.builder()
+                  .model(EditImageModel.NANO_BANANA_2_LITE)
+                  .prompt("Replace the background with a clean studio set")
+                  .aspectRatio("16:9")
+                  .sourceImageUrls(java.util.Arrays.asList("https://cdn.runapi.ai/public/samples/image.jpg"))
+                  .build()
+      ));
 
       CapturingTransport createWithOptionsTransport = new CapturingTransport("{\"id\":\"task_edit_image_options\",\"status\":\"processing\"}");
       NanoBananaClient createWithOptionsClient = NanoBananaClient.builder().apiKey("sk-test").transport(createWithOptionsTransport).build();
@@ -268,12 +292,29 @@ class NanoBananaClientTest {
           "{\"id\":\"task_text_to_image_run_options\",\"status\":\"completed\",\"images\":[{\"url\":\"https://file.runapi.ai/generated\"}]}");
       NanoBananaClient runWithOptionsClient = NanoBananaClient.builder().apiKey("sk-test").transport(runWithOptionsTransport).build();
       assertNotNull(runWithOptionsClient.textToImage().run(
-              TextToImageParams.builder()
-                  .model(TextToImageModel.NANO_BANANA)
-                  .prompt("A small red cube on a plain white table, studio product photo")
-                  .build(),
+          TextToImageParams.builder()
+              .model(TextToImageModel.NANO_BANANA)
+              .prompt("A small red cube on a plain white table, studio product photo")
+              .build(),
           RequestOptions.builder().pollingInterval(Duration.ofMillis(1)).pollingMaxWait(Duration.ofSeconds(1)).build()));
     }
+
+  @Test
+  void editImageDefaultsModelToLite() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_lite\",\"status\":\"processing\"}");
+    NanoBananaClient client = NanoBananaClient.builder().apiKey("sk-test").transport(transport).build();
+
+    client.editImage().create(
+        EditImageParams.builder()
+            .prompt("Replace the background with a clean studio set")
+            .aspectRatio("16:9")
+            .sourceImageUrls(java.util.Arrays.asList("https://cdn.runapi.ai/public/samples/image.jpg"))
+            .build()
+    );
+
+    JsonNode body = bodyJson(transport.request);
+    assertEquals("nano-banana-2-lite", body.get("model").asText());
+  }
 
   private static JsonNode bodyJson(HttpRequest request) throws Exception {
     JsonRequestBody body = (JsonRequestBody) request.getBody();

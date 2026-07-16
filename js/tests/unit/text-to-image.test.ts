@@ -119,6 +119,29 @@ describe('TextToImage', () => {
       );
     });
 
+    it('should default model to nano-banana-2-lite', async () => {
+      const mockResponse: TaskCreateResponse = { id: 'task-default-lite' };
+      vi.mocked(mockHttp.request).mockResolvedValueOnce(mockResponse);
+
+      const textToImage = new TextToImage(mockHttp);
+      await textToImage.create({
+        prompt: 'A cinematic meadow scene',
+        aspect_ratio: 'auto',
+      });
+
+      expect(mockHttp.request).toHaveBeenCalledWith(
+        'POST',
+        '/api/v1/nano_banana/text_to_image',
+        {
+          body: {
+            model: 'nano-banana-2-lite',
+            prompt: 'A cinematic meadow scene',
+            aspect_ratio: 'auto',
+          },
+        }
+      );
+    });
+
     it('should reject lite output controls from contract rules', async () => {
       const textToImage = new TextToImage(mockHttp);
 

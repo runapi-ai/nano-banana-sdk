@@ -4,8 +4,14 @@ import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 
-/** Parameters for edit image operations. */
+/**
+ * Parameters for edit image operations. nano-banana-edit supports output format
+ * control; nano-banana-2-lite requires aspect_ratio and does not support
+ * output_format.
+ */
 public final class EditImageParams {
+  private static final String DEFAULT_MODEL = "nano-banana-2-lite";
+
   private final String model;
   private final String prompt;
   private final String callbackUrl;
@@ -35,7 +41,7 @@ public final class EditImageParams {
   /** Converts these parameters to the JSON request body shape. */
   public Map<String, Object> toMap() {
     Map<String, Object> raw = new LinkedHashMap<String, Object>();
-    raw.put("model", NanobananaParamUtils.wireValue(model));
+    raw.put("model", NanobananaParamUtils.wireValue(modelOrDefault()));
     raw.put("prompt", NanobananaParamUtils.wireValue(prompt));
     raw.put("callback_url", NanobananaParamUtils.wireValue(callbackUrl));
     raw.put("output_format", NanobananaParamUtils.wireValue(outputFormat));
@@ -57,13 +63,13 @@ public final class EditImageParams {
 
     private Builder() {}
 
-    /** Sets the model slug using a typed model value. */
+    /** Sets the model slug using a typed model value. Defaults to nano-banana-2-lite when omitted. */
     public Builder model(EditImageModel value) {
       this.model = java.util.Objects.requireNonNull(value, "model").value();
       return this;
     }
 
-    /** Sets the model slug using a string value. */
+    /** Sets the model slug using a string value. Defaults to nano-banana-2-lite when omitted. */
     public Builder model(String value) {
       this.model = NanobananaParamUtils.requireNonBlankTrim(value, "model");
       return this;
@@ -104,5 +110,9 @@ public final class EditImageParams {
     public EditImageParams build() {
       return new EditImageParams(this);
     }
+  }
+
+  private String modelOrDefault() {
+    return model == null || model.trim().isEmpty() ? DEFAULT_MODEL : model;
   }
 }

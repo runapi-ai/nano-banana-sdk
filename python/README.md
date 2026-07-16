@@ -26,8 +26,9 @@ task = client.text_to_image.create(
 status = client.text_to_image.get(task.id)
 
 edit = client.edit_image.create(
-    model="nano-banana-edit",
+    model="nano-banana-2-lite",
     prompt="Make it golden hour",
+    aspect_ratio="auto",
     source_image_urls=["https://cdn.runapi.ai/public/samples/image.jpg"],
 )
 ```

@@ -31,8 +31,9 @@ puts "Image URLs: #{result["images"]&.map { |image| image["url"] }}"
 # 3. Image editing
 puts "\n=== Image Editing ==="
 result = client.edit_image.run(
-  model: "nano-banana-edit",
+  model: "nano-banana-2-lite",
   prompt: "make the sky more dramatic",
+  aspect_ratio: "auto",
   source_image_urls: [ENV.fetch("TEST_IMAGE_URL", "https://raw.githubusercontent.com/ckenst/images-catalog/refs/heads/master/size/small_size/Starbucks%20Dog.jpg")]
 )
 puts "Status: #{result["status"]}"

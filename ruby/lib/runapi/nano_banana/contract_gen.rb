@@ -4,8 +4,23 @@ module RunApi
   module NanoBanana
     CONTRACT = {
       "edit-image" => {
-        "models" => ["nano-banana-edit"],
+        "models" => ["nano-banana-2-lite", "nano-banana-edit"],
         "fields_by_model" => {
+          "nano-banana-2-lite" => {
+            "aspect_ratio" => {
+              "enum" => ["1:1", "1:4", "1:8", "2:3", "3:2", "3:4", "4:1", "4:3", "4:5", "5:4", "8:1", "9:16", "16:9", "21:9", "auto"],
+              "required" => true
+            },
+            "prompt" => {
+              "required" => true,
+              "min" => 1,
+              "max" => 20000,
+              "length" => true
+            },
+            "source_image_urls" => {
+              "required" => true
+            }
+          },
           "nano-banana-edit" => {
             "aspect_ratio" => {
               "enum" => ["1:1", "9:16", "16:9", "3:4", "4:3", "3:2", "2:3", "5:4", "4:5", "21:9", "auto"]
@@ -17,7 +32,13 @@ module RunApi
               "required" => true
             }
           }
-        }
+        },
+        "rules" => [{
+          "when" => {
+            "model" => "nano-banana-2-lite"
+          },
+          "forbidden" => ["output_format"]
+        }]
       },
       "text-to-image" => {
         "models" => ["nano-banana", "nano-banana-2", "nano-banana-2-lite", "nano-banana-pro"],

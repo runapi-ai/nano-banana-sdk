@@ -9,6 +9,7 @@ module RunApi
         include RunApi::Core::ResourceHelpers
 
         ENDPOINT = "/api/v1/nano_banana/text_to_image"
+        DEFAULT_MODEL = "nano-banana-2-lite"
 
         RESPONSE_CLASS = Types::TextToImageResponse
         COMPLETED_RESPONSE_CLASS = Types::CompletedTextToImageResponse
@@ -29,7 +30,7 @@ module RunApi
         # Create an image generation task.
         #
         # @param params [Hash] generation parameters
-        # @option params [String] :model model slug, e.g. "nano-banana", "nano-banana-pro", "nano-banana-2", "nano-banana-2-lite"
+        # @option params [String] :model optional; defaults to "nano-banana-2-lite"
         # @option params [String] :prompt required; image description
         # @option params [String] :aspect_ratio optional; required for nano-banana-2-lite
         # @option params [String] :output_format optional; "png", "jpeg", or "jpg" (not supported by nano-banana-2-lite)
@@ -39,6 +40,7 @@ module RunApi
         # @return [RunApi::NanoBanana::Types::TextToImageResponse] task creation result with id
         def create(options: nil, **params)
           params = compact_params(params)
+          params[:model] = DEFAULT_MODEL unless param(params, :model)
           validate_params!(params)
           request(:post, ENDPOINT, body: params, options: options)
         end

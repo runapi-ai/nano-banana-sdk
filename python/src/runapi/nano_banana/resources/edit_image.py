@@ -14,9 +14,10 @@ from ..types import (
 
 
 class EditImage(Resource):
-    """Edit existing images using text prompts and reference images."""
+    """Edit existing images using text prompts and source images."""
 
     ENDPOINT = "/api/v1/nano_banana/edit_image"
+    DEFAULT_MODEL = "nano-banana-2-lite"
 
     RESPONSE_CLASS = EditImageResponse
     COMPLETED_RESPONSE_CLASS = CompletedEditImageResponse
@@ -42,7 +43,7 @@ class EditImage(Resource):
         Returns:
             The task creation result with an id.
         """
-        compacted = self._compact_params(params)
+        compacted = {"model": self.DEFAULT_MODEL, **self._compact_params(params)}
         self._validate_params(compacted)
         return self._request("post", self.ENDPOINT, body=compacted, options=options)
 

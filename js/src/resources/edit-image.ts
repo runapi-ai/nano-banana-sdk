@@ -5,13 +5,14 @@ import { contract } from '../contract_gen';
 import type { CompletedEditImageResponse, EditImageParams, EditImageResponse, TaskCreateResponse } from '../types';
 
 const ENDPOINT = '/api/v1/nano_banana/edit_image';
+const DEFAULT_MODEL = 'nano-banana-2-lite';
 
 /** Modifies existing images based on text prompts. Requires source images to edit. */
 export class EditImage {
   constructor(private readonly http: HttpClient) {}
 
   /**
-   * Edit an image using text prompts and reference images and wait until complete.
+   * Edit an image using text prompts and source images and wait until complete.
    * @param params Edit parameters.
    * @param options Per-request and polling overrides.
    * @returns The completed edit with image results.
@@ -32,7 +33,7 @@ export class EditImage {
    * @returns The task creation result with id.
    */
   async create(params: EditImageParams, options?: RequestOptions): Promise<TaskCreateResponse> {
-    const body = compactParams(params);
+    const body = { model: DEFAULT_MODEL, ...compactParams(params) };
     validateParams(contract['edit-image'] as ActionSchema, body as Record<string, unknown>);
     return this.http.request<TaskCreateResponse>('POST', ENDPOINT, {
       body,

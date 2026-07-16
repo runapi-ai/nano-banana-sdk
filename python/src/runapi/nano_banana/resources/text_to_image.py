@@ -17,6 +17,7 @@ class TextToImage(Resource):
     """Generate images from text prompts with various models and options."""
 
     ENDPOINT = "/api/v1/nano_banana/text_to_image"
+    DEFAULT_MODEL = "nano-banana-2-lite"
 
     RESPONSE_CLASS = TextToImageResponse
     COMPLETED_RESPONSE_CLASS = CompletedTextToImageResponse
@@ -42,7 +43,7 @@ class TextToImage(Resource):
         Returns:
             The task creation result with an id.
         """
-        compacted = self._compact_params(params)
+        compacted = {"model": self.DEFAULT_MODEL, **self._compact_params(params)}
         self._validate_params(compacted)
         return self._request("post", self.ENDPOINT, body=compacted, options=options)
 

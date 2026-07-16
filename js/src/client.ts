@@ -5,9 +5,8 @@ import { EditImage } from './resources/edit-image';
 /**
  * NanoBanana image generation and editing API client.
  *
- * Three generation tiers: standard (fast), pro (higher resolution, more
- * reference images), and v2 (longest prompts, extreme aspect ratios, up to 14
- * reference images). Editing uses the dedicated `nano-banana-edit` model.
+ * Generation tiers include standard, pro, v2, and v2 lite. Image editing
+ * supports `nano-banana-2-lite` and the dedicated `nano-banana-edit` model.
  *
  * @example
  * ```typescript

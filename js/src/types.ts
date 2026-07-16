@@ -2,8 +2,8 @@ import type { AsyncTaskStatus } from '@runapi.ai/core';
 
 /** Generation model tiers: standard (fast), pro (higher resolution + more refs), v2, and v2 lite. */
 export type TextToImageModel = 'nano-banana' | 'nano-banana-pro' | 'nano-banana-2' | 'nano-banana-2-lite';
-/** Dedicated editing model. Requires source images to transform. */
-export type EditImageModel = 'nano-banana-edit';
+/** Editing-capable Nano Banana models. */
+export type EditImageModel = 'nano-banana-edit' | 'nano-banana-2-lite';
 
 /** Aspect ratio options for the standard model. */
 export type BaseAspectRatio =
@@ -50,6 +50,9 @@ export type OutputResolution = '1k' | '2k' | '4k';
 /** Output image encoding format. */
 export type OutputFormat = 'png' | 'jpg' | 'jpeg';
 
+/** Output image encoding format for the dedicated edit model. */
+export type EditOutputFormat = 'png' | 'jpeg';
+
 /** Standard tier generation. Up to 8 reference images, max 5000-char prompt. */
 export interface GenerationBaseParams {
   model: 'nano-banana';
@@ -87,7 +90,8 @@ export interface GenerationV2Params {
 
 /** V2 Lite generation. Requires aspect_ratio, accepts up to 10 references, and has no output format or resolution controls. */
 export interface GenerationV2LiteParams {
-  model: 'nano-banana-2-lite';
+  /** Defaults to `nano-banana-2-lite` when omitted. */
+  model?: 'nano-banana-2-lite';
   prompt: string;
   callback_url?: string;
   aspect_ratio: AspectRatioV2;
@@ -105,20 +109,36 @@ export type TextToImageParams =
   | GenerationV2Params
   | GenerationV2LiteParams;
 
-/**
- * Edit image parameters. Requires source images to modify according to the prompt.
- * Up to 10 source images, max 10 MB each.
- */
-export interface EditImageParams {
+/** Dedicated edit model. Requires source images and supports output format control. */
+export interface EditImageBaseParams {
   model: 'nano-banana-edit';
   /** Edit instruction describing the desired changes (up to 5000 chars). */
   prompt: string;
   /** Source images to edit (up to 10 images, max 10 MB each). */
   source_image_urls: string[];
   callback_url?: string;
-  output_format?: OutputFormat;
+  output_format?: EditOutputFormat;
   aspect_ratio?: BaseAspectRatio;
 }
+
+/** V2 Lite edit. Requires aspect_ratio and does not accept output_format. */
+export interface EditImageV2LiteParams {
+  /** Defaults to `nano-banana-2-lite` when omitted. */
+  model?: 'nano-banana-2-lite';
+  /** Edit instruction describing the desired changes (up to 20000 chars). */
+  prompt: string;
+  /** Source images to edit (up to 10 images). */
+  source_image_urls: string[];
+  callback_url?: string;
+  aspect_ratio: AspectRatioV2;
+}
+
+/**
+ * Edit image parameters. A discriminated union on `model`: the dedicated edit
+ * model supports output format, while V2 Lite requires aspect ratio and omits
+ * output format controls.
+ */
+export type EditImageParams = EditImageBaseParams | EditImageV2LiteParams;
 
 export interface TaskCreateResponse {
   id: string;
