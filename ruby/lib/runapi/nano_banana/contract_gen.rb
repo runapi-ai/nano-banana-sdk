@@ -18,7 +18,9 @@ module RunApi
               "length" => true
             },
             "source_image_urls" => {
-              "required" => true
+              "required" => true,
+              "min_items" => 1,
+              "max_items" => 10
             }
           },
           "nano-banana-edit" => {
@@ -72,6 +74,9 @@ module RunApi
               "min" => 1,
               "max" => 20000,
               "length" => true
+            },
+            "reference_image_urls" => {
+              "max_items" => 10
             }
           },
           "nano-banana-pro" => {

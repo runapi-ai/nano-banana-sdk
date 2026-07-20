@@ -33,7 +33,9 @@ export const contract = {
           "length": true
         },
         "source_image_urls": {
-          "required": true
+          "required": true,
+          "min_items": 1,
+          "max_items": 10
         }
       },
       "nano-banana-edit": {
@@ -167,6 +169,9 @@ export const contract = {
           "min": 1,
           "max": 20000,
           "length": true
+        },
+        "reference_image_urls": {
+          "max_items": 10
         }
       },
       "nano-banana-pro": {

@@ -1,5 +1,11 @@
 # Changelog
 
+## [js/v0.2.11](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/js%2Fv0.2.11), [ruby/v0.2.11](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/ruby%2Fv0.2.11), [go/v0.2.11](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/go%2Fv0.2.11), [python/v0.1.4](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/python%2Fv0.1.4) - 2026-07-20
+
+### Changed
+- Validate Nano Banana 2 Lite reference and source image counts from the generated contract.
+
+
 ## [js/v0.2.10](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/js%2Fv0.2.10), [ruby/v0.2.10](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/ruby%2Fv0.2.10), [go/v0.2.10](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/go%2Fv0.2.10), [python/v0.1.3](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/python%2Fv0.1.3), [java/v0.1.4](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/java%2Fv0.1.4) - 2026-07-16
 
 ### Changed

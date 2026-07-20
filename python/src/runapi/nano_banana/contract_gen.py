@@ -14,7 +14,9 @@ CONTRACT = {
                     "length": True
                 },
                 "source_image_urls": {
-                    "required": True
+                    "required": True,
+                    "min_items": 1,
+                    "max_items": 10
                 }
             },
             "nano-banana-edit": {
@@ -68,6 +70,9 @@ CONTRACT = {
                     "min": 1,
                     "max": 20000,
                     "length": True
+                },
+                "reference_image_urls": {
+                    "max_items": 10
                 }
             },
             "nano-banana-pro": {
