@@ -4,14 +4,14 @@ build-backend = "hatchling.build"
 
 [project]
 name = "runapi-nano-banana"
-version = "0.1.4"
+version = "0.2.0"
 description = "RunAPI Nano Banana SDK for text-to-image and image editing workflows in JavaScript, Python, Ruby, Go, Java, and PHP"
 readme = "README.md"
 requires-python = ">=3.9"
 license = "Apache-2.0"
 authors = [{ name = "RunAPI", email = "contact@runapi.ai" }]
 keywords = ["runapi", "runapi-ai", "nano-banana", "api", "sdk", "typescript", "python", "ruby", "golang", "java", "maven", "gradle", "image-generation", "text-to-image", "image-api", "nano-banana-api"]
-dependencies = ["runapi-core>=0.2.1"]
+dependencies = ["runapi-core>=0.3.0"]
 
 [project.urls]
 Homepage = "https://runapi.ai/models/nano-banana"
@@ -19,7 +19,7 @@ Documentation = "https://runapi.ai/docs#sdk-nano-banana"
 Source = "https://github.com/runapi-ai/nano-banana-sdk"
 Issues = "https://github.com/runapi-ai/nano-banana-sdk/issues"
 Changelog = "https://github.com/runapi-ai/nano-banana-sdk/blob/main/CHANGELOG.md"
-"Release Notes" = "https://github.com/runapi-ai/nano-banana-sdk/releases/tag/python%2Fv0.1.4"
+"Release Notes" = "https://github.com/runapi-ai/nano-banana-sdk/releases/tag/python%2Fv0.2.0"
 
 [tool.hatch.build.targets.wheel]
 packages = ["src/runapi"]
