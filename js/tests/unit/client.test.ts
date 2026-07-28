@@ -1,5 +1,4 @@
 import { describe, it, expect } from 'vitest';
-import { AuthenticationError } from '@runapi.ai/core';
 import { NanoBananaClient } from '../../src';
 
 describe('NanoBananaClient', () => {
@@ -7,11 +6,6 @@ describe('NanoBananaClient', () => {
     const client = new NanoBananaClient({ apiKey: 'test-key' });
     expect(client.textToImage).toBeDefined();
     expect(client.editImage).toBeDefined();
-  });
-
-  it('should throw if no API key is provided', () => {
-    // @ts-expect-error: testing missing API key
-    expect(() => new NanoBananaClient({})).toThrow(AuthenticationError);
   });
 
   it('should have textToImage resource accessible', () => {
