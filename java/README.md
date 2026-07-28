@@ -4,7 +4,7 @@
 
 The Nano Banana Java SDK is the language-specific package for Nano Banana on RunAPI. Use it when your Java application needs typed builders, strict request validation, task status lookup, local polling helpers, file uploads, account helpers, and consistent RunAPI errors for Nano Banana workflows.
 
-This README is the Java package guide inside the public `nano-banana-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/nano-banana; for API reference, use https://runapi.ai/docs#nano-banana; for SDK docs, use https://runapi.ai/docs#sdk-nano-banana.
+This README is the Java package guide inside the public `nano-banana-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/nano-banana; for API reference, use https://runapi.ai/docs/api/nano-banana/text-to-image; for SDK docs, use https://runapi.ai/docs/resources/sdks.
 
 ## Requirements
 
@@ -177,8 +177,8 @@ try {
 ## Links
 
 - Model page: https://runapi.ai/models/nano-banana
-- SDK docs: https://runapi.ai/docs#sdk-nano-banana
-- Product docs: https://runapi.ai/docs#nano-banana
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/nano-banana/text-to-image
 - Pricing and rate limits: https://runapi.ai/models/nano-banana/nano-banana
 - Full catalog: https://runapi.ai/models
 - Repository: https://github.com/runapi-ai/nano-banana-sdk

@@ -61,8 +61,8 @@ const url = result.images[0].url;
 ## Routing
 
 - Model page: https://runapi.ai/models/nano-banana
-- Product docs: https://runapi.ai/docs#nano-banana
-- SDK docs: https://runapi.ai/docs#sdk-nano-banana
+- Product docs: https://runapi.ai/docs/api/nano-banana/text-to-image
+- SDK docs: https://runapi.ai/docs/resources/sdks
 - SDK repository: https://github.com/runapi-ai/nano-banana-sdk
 - Pricing and rate limits: https://runapi.ai/models/nano-banana/nano-banana
 - Provider comparison: https://runapi.ai/providers/google

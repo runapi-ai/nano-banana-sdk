@@ -110,8 +110,8 @@ Most media endpoints are asynchronous. `create()` submits a task and returns its
 ## Public links
 
 - Model page: https://runapi.ai/models/nano-banana
-- SDK docs: https://runapi.ai/docs#sdk-nano-banana
-- Product docs: https://runapi.ai/docs#nano-banana
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/nano-banana/text-to-image
 - SDK repository: https://github.com/runapi-ai/nano-banana-sdk
 - PHP package repository: https://github.com/runapi-ai/nano-banana-php
 - Skill repository: https://github.com/runapi-ai/nano-banana

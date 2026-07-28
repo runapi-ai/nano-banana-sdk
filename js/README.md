@@ -2,7 +2,7 @@
 
 The Nano Banana JavaScript SDK is the language-specific package for Nano Banana on RunAPI. Use this package for image generation, image editing, and creative production workflows when your application needs request bodies, task status lookup, and consistent RunAPI errors in JavaScript.
 
-This README is the JavaScript package guide inside the public `nano-banana-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/nano-banana; for API reference, use https://runapi.ai/docs#nano-banana; for SDK docs, use https://runapi.ai/docs#sdk-nano-banana.
+This README is the JavaScript package guide inside the public `nano-banana-sdk` repository. For the repository overview, start at `../README.md`; for model details, use https://runapi.ai/models/nano-banana; for API reference, use https://runapi.ai/docs/api/nano-banana/text-to-image; for SDK docs, use https://runapi.ai/docs/resources/sdks.
 
 ## Install
 
@@ -17,7 +17,7 @@ import { NanoBananaClient } from '@runapi.ai/nano-banana';
 
 const client = new NanoBananaClient();
 const task = await client.textToImage.create({
-  // Pass the Nano Banana JSON request body from https://runapi.ai/docs#nano-banana.
+  // Pass the Nano Banana JSON request body from https://runapi.ai/docs/api/nano-banana/text-to-image.
 });
 const status = await client.textToImage.get(task.id);
 ```
@@ -33,8 +33,8 @@ Use the TypeScript types in `src/types.ts` and the resource classes under `src/r
 ## Links
 
 - Model page: https://runapi.ai/models/nano-banana
-- SDK docs: https://runapi.ai/docs#sdk-nano-banana
-- Product docs: https://runapi.ai/docs#nano-banana
+- SDK docs: https://runapi.ai/docs/resources/sdks
+- Product docs: https://runapi.ai/docs/api/nano-banana/text-to-image
 - Pricing and rate limits: https://runapi.ai/models/nano-banana/nano-banana
 - Provider comparison: https://runapi.ai/providers/google
 - Full catalog: https://runapi.ai/models
