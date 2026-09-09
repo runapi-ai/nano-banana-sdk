@@ -203,6 +203,9 @@ export const contract = {
             "2k",
             "4k"
           ]
+        },
+        "reference_image_urls": {
+          "max_items": 8
         }
       }
     },
