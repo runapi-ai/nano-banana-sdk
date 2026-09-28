@@ -1,4 +1,4 @@
-import type { AsyncTaskStatus, TaskBillingResponse, TaskResponse } from '@runapi.ai/core';
+import type { AsyncTaskStatus, TaskResponse } from '@runapi.ai/core';
 
 /** Generation model tiers: standard (fast), pro (higher resolution + more refs), v2, and v2 lite. */
 export type TextToImageModel = 'nano-banana' | 'nano-banana-pro' | 'nano-banana-2' | 'nano-banana-2-lite';
@@ -140,7 +140,7 @@ export interface EditImageV2LiteParams {
  */
 export type EditImageParams = EditImageBaseParams | EditImageV2LiteParams;
 
-export interface TaskCreateResponse extends TaskBillingResponse {
+export interface TaskCreateResponse {
   id: string;
 }
 

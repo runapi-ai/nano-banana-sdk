@@ -47,7 +47,7 @@ type EditImageParams struct {
 
 // AsyncTaskResponse implements core.TaskResponse for async task polling.
 type AsyncTaskResponse struct {
-	core.TaskBillingFacts
+	Usage *core.TaskUsage `json:"usage,omitempty"`
 	ID     string     `json:"id"`
 	Status TaskStatus `json:"status"`
 	Error  string     `json:"error,omitempty"`

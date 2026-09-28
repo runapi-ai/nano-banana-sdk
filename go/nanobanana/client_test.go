@@ -31,8 +31,7 @@ func TestTextToImageCreateSendsCorrectRequest(t *testing.T) {
 		Prompt:             "a cat",
 		AspectRatio:        "16:9",
 		OutputResolution:   "2k",
-		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/reference.png"},
-	})
+		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/reference.png"}})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -67,8 +66,7 @@ func TestTextToImageCreateSendsLiteRequest(t *testing.T) {
 		Model:              "nano-banana-2-lite",
 		Prompt:             "a cinematic meadow",
 		AspectRatio:        "auto",
-		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/image.jpg"},
-	})
+		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/image.jpg"}})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -95,8 +93,7 @@ func TestTextToImageCreateDefaultsModelToLite(t *testing.T) {
 	client := NewClientWithHTTP(stub)
 	_, err := client.TextToImage.Create(context.Background(), TextToImageParams{
 		Prompt:      "a cinematic meadow",
-		AspectRatio: "auto",
-	})
+		AspectRatio: "auto"})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -112,8 +109,7 @@ func TestTextToImageCreateRejectsLiteOutputControls(t *testing.T) {
 		Model:            "nano-banana-2-lite",
 		Prompt:           "a cinematic meadow",
 		AspectRatio:      "auto",
-		OutputResolution: "1k",
-	})
+		OutputResolution: "1k"})
 	if err == nil {
 		t.Fatal("expected validation error")
 	}
@@ -126,8 +122,7 @@ func TestTextToImageCreateRequiresLiteAspectRatio(t *testing.T) {
 	client := NewClientWithHTTP(&stubHTTPClient{})
 	_, err := client.TextToImage.Create(context.Background(), TextToImageParams{
 		Model:  "nano-banana-2-lite",
-		Prompt: "a cinematic meadow",
-	})
+		Prompt: "a cinematic meadow"})
 	if err == nil {
 		t.Fatal("expected validation error")
 	}
@@ -143,8 +138,7 @@ func TestEditImageCreateSendsCorrectRequest(t *testing.T) {
 		Model:           "nano-banana-edit",
 		Prompt:          "remove background",
 		AspectRatio:     "1:1",
-		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
-	})
+		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"}})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -170,8 +164,7 @@ func TestEditImageCreateSendsLiteRequest(t *testing.T) {
 		Model:           "nano-banana-2-lite",
 		Prompt:          "replace the background",
 		AspectRatio:     "16:9",
-		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
-	})
+		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"}})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -193,8 +186,7 @@ func TestEditImageCreateDefaultsModelToLite(t *testing.T) {
 	_, err := client.EditImage.Create(context.Background(), EditImageParams{
 		Prompt:          "replace the background",
 		AspectRatio:     "16:9",
-		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
-	})
+		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"}})
 	if err != nil {
 		t.Fatal(err)
 	}
@@ -211,8 +203,7 @@ func TestEditImageCreateRejectsLiteOutputFormat(t *testing.T) {
 		Prompt:          "replace the background",
 		AspectRatio:     "auto",
 		OutputFormat:    "png",
-		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"},
-	})
+		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"}})
 	if err == nil {
 		t.Fatal("expected validation error")
 	}
@@ -234,7 +225,7 @@ func TestTextToImageGetSendsCorrectPath(t *testing.T) {
 }
 
 func TestTextToImageGetDecodesImages(t *testing.T) {
-	raw := json.RawMessage(`{"id":"task_abc","status":"completed","images":[{"url":"https://cdn.runapi.ai/public/samples/result.png"}]}`)
+	raw := json.RawMessage(`{"id":"task_abc","status":"completed", "usage": {"cost": 0.05},"images":[{"url":"https://cdn.runapi.ai/public/samples/result.png"}]}`)
 	var response TextToImageResponse
 	if err := json.Unmarshal(raw, &response); err != nil {
 		t.Fatal(err)

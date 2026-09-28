@@ -80,8 +80,7 @@ def test_create_posts_compacted_body():
         model="nano-banana", prompt="hello world", aspect_ratio="1:1", output_resolution=None
     )
     assert fake.calls == [
-        ("post", "/api/v1/nano_banana/text_to_image", {"model": "nano-banana", "prompt": "hello world", "aspect_ratio": "1:1"}),
-    ]
+        ("post", "/api/v1/nano_banana/text_to_image", {"model": "nano-banana", "prompt": "hello world", "aspect_ratio": "1:1"})]
     assert isinstance(result, TextToImageResponse)
 
 
@@ -102,10 +101,8 @@ def test_create_posts_lite_body():
                 "model": "nano-banana-2-lite",
                 "prompt": "hello world",
                 "aspect_ratio": "auto",
-                "reference_image_urls": ["https://cdn.runapi.ai/public/samples/image.jpg"],
-            },
-        ),
-    ]
+                "reference_image_urls": ["https://cdn.runapi.ai/public/samples/image.jpg"]},
+        )]
     assert isinstance(result, TextToImageResponse)
 
 
@@ -125,8 +122,7 @@ def test_edit_create_posts_compacted_body():
         source_image_urls=["https://x/a.png"],
     )
     assert fake.calls == [
-        ("post", "/api/v1/nano_banana/edit_image", {"model": "nano-banana-edit", "prompt": "brighten it", "source_image_urls": ["https://x/a.png"]}),
-    ]
+        ("post", "/api/v1/nano_banana/edit_image", {"model": "nano-banana-edit", "prompt": "brighten it", "source_image_urls": ["https://x/a.png"]})]
     assert isinstance(result, EditImageResponse)
 
 
@@ -147,17 +143,15 @@ def test_edit_create_posts_lite_body():
                 "model": "nano-banana-2-lite",
                 "prompt": "replace the background",
                 "source_image_urls": ["https://cdn.runapi.ai/public/samples/image.jpg"],
-                "aspect_ratio": "16:9",
-            },
-        ),
-    ]
+                "aspect_ratio": "16:9"},
+        )]
     assert isinstance(result, EditImageResponse)
 
 
 def test_run_narrows_completed_type():
     fake = FakeHttp(
         {"id": "t1", "status": "pending"},
-        {"id": "t1", "status": "completed", "images": [{"url": "https://x/y.png"}]},
+        {"id": "t1", "status": "completed", "usage": {"cost": 0.05}, "images": [{"url": "https://x/y.png"}]},
     )
     client = NanoBananaClient(api_key="k", http_client=fake)
     result = client.text_to_image.run(model="nano-banana", prompt="a serene lake")
@@ -168,7 +162,7 @@ def test_run_narrows_completed_type():
 def test_edit_run_narrows_completed_type():
     fake = FakeHttp(
         {"id": "t1", "status": "pending"},
-        {"id": "t1", "status": "completed", "images": [{"url": "https://x/z.png"}]},
+        {"id": "t1", "status": "completed", "usage": {"cost": 0.05}, "images": [{"url": "https://x/z.png"}]},
     )
     client = NanoBananaClient(api_key="k", http_client=fake)
     result = client.edit_image.run(
@@ -187,8 +181,7 @@ def test_defaults_text_to_image_model():
     client.text_to_image.create(prompt="hi there", aspect_ratio="auto")
 
     assert fake.calls == [
-        ("post", "/api/v1/nano_banana/text_to_image", {"model": "nano-banana-2-lite", "prompt": "hi there", "aspect_ratio": "auto"}),
-    ]
+        ("post", "/api/v1/nano_banana/text_to_image", {"model": "nano-banana-2-lite", "prompt": "hi there", "aspect_ratio": "auto"})]
 
 
 def test_requires_prompt():
@@ -261,10 +254,8 @@ def test_edit_defaults_model():
                 "model": "nano-banana-2-lite",
                 "prompt": "brighten it",
                 "source_image_urls": ["https://x/a.png"],
-                "aspect_ratio": "16:9",
-            },
-        ),
-    ]
+                "aspect_ratio": "16:9"},
+        )]
 
 
 def test_edit_rejects_lite_output_format():

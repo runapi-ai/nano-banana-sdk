@@ -1,5 +1,15 @@
 # Changelog
 
+## [js/v0.2.14](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/js%2Fv0.2.14), [go/v0.2.14](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/go%2Fv0.2.14) - 2026-09-28
+
+### Added
+- Return usage.cost as a float USD amount on completed async Task query and webhook envelopes.
+
+### Removed
+- Remove the public Task billing object from Task envelopes.
+  Migration: Read usage.cost on completed Task envelopes. Create, processing, and failed envelopes omit usage.
+
+
 ## [js/v0.2.13](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/js%2Fv0.2.13), [ruby/v0.2.15](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/ruby%2Fv0.2.15), [go/v0.2.13](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/go%2Fv0.2.13), [python/v0.2.3](https://github.com/runapi-ai/nano-banana-sdk/releases/tag/python%2Fv0.2.3) - 2026-09-09
 
 ### Changed
