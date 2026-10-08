@@ -60,41 +60,6 @@ RSpec.describe RunApi::NanoBanana::Resources::TextToImage do
       expect(result.id).to eq("task-default-lite")
     end
 
-    it "raises ValidationError when prompt is missing" do
-      expect { text_to_image.create(model: "nano-banana") }
-        .to raise_error(RunApi::Core::ValidationError, /prompt is required/)
-    end
-
-    it "raises ValidationError for invalid model" do
-      expect { text_to_image.create(model: "invalid", prompt: "test") }
-        .to raise_error(RunApi::Core::ValidationError, /model must be one of: nano-banana, nano-banana-2, nano-banana-2-lite, nano-banana-pro/)
-    end
-
-    it "raises ValidationError for invalid aspect_ratio" do
-      expect { text_to_image.create(model: "nano-banana", prompt: "test", aspect_ratio: "7:3") }
-        .to raise_error(RunApi::Core::ValidationError, /aspect_ratio must be one of/)
-    end
-
-    it "raises ValidationError for invalid output_resolution" do
-      expect { text_to_image.create(model: "nano-banana-2", prompt: "test", output_resolution: "8k") }
-        .to raise_error(RunApi::Core::ValidationError, /output_resolution must be one of/)
-    end
-
-    it "raises ValidationError when lite aspect_ratio is missing" do
-      expect { text_to_image.create(model: "nano-banana-2-lite", prompt: "test") }
-        .to raise_error(RunApi::Core::ValidationError, /aspect_ratio is required/)
-    end
-
-    it "raises ValidationError for lite output controls" do
-      expect { text_to_image.create(model: "nano-banana-2-lite", prompt: "test", aspect_ratio: "auto", output_resolution: "1k") }
-        .to raise_error(RunApi::Core::ValidationError, /output_resolution is not allowed when model is nano-banana-2-lite/)
-    end
-
-    it "raises ValidationError for invalid output_format" do
-      expect { text_to_image.create(model: "nano-banana", prompt: "test", output_format: "webp") }
-        .to raise_error(RunApi::Core::ValidationError, /output_format must be one of/)
-    end
-
     it "passes valid optional params without error" do
       params = {model: "nano-banana-pro", prompt: "test", aspect_ratio: "16:9", output_resolution: "2k", output_format: "png", reference_image_urls: ["https://cdn.runapi.ai/public/samples/input.png"]}
       expect(http).to receive(:request).with(:post, endpoint, body: params).and_return("id" => "t1")

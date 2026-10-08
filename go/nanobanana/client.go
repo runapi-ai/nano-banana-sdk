@@ -58,9 +58,6 @@ func (r *TextToImage) Create(ctx context.Context, params TextToImageParams, opts
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	body := core.CompactParams(params)
 	applyDefaultModel(body)
-	if err := core.ValidateParams(contractSchema["text-to-image"], body); err != nil {
-		return nil, err
-	}
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, textToImagePath, body, requestOptions)
 }
 
@@ -81,9 +78,6 @@ func (r *EditImage) Create(ctx context.Context, params EditImageParams, opts ...
 	requestOptions, _ := option.ResolveRequestOptions(opts...)
 	body := core.CompactParams(params)
 	applyDefaultModel(body)
-	if err := core.ValidateParams(contractSchema["edit-image"], body); err != nil {
-		return nil, err
-	}
 	return core.PostJSON[core.TaskCreateResponse](ctx, r.http, editImagePath, body, requestOptions)
 }
 

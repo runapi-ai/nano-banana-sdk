@@ -41,7 +41,6 @@ module RunApi
         def create(options: nil, **params)
           params = compact_params(params)
           params[:model] = DEFAULT_MODEL unless param(params, :model)
-          validate_params!(params)
           request(:post, ENDPOINT, body: params, options: options)
         end
 
@@ -51,14 +50,6 @@ module RunApi
         # @return [RunApi::NanoBanana::Types::TextToImageResponse] current generation status
         def get(id, options: nil)
           request(:get, "#{ENDPOINT}/#{id}", options: options)
-        end
-
-        private
-
-        def validate_params!(params)
-          validate_contract!(CONTRACT["text-to-image"], params)
-
-          raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
         end
       end
     end

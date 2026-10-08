@@ -138,20 +138,6 @@ describe('EditImage', () => {
         }
       );
     });
-
-    it('should reject lite edit output_format from contract rules', async () => {
-      const editImage = new EditImage(mockHttp);
-
-      await expect(
-        editImage.create({
-          model: 'nano-banana-2-lite',
-          prompt: 'Replace the background',
-          source_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
-          aspect_ratio: 'auto',
-          output_format: 'png',
-        } as never)
-      ).rejects.toThrow('output_format is not allowed when model is nano-banana-2-lite');
-    });
   });
 
   describe('get', () => {

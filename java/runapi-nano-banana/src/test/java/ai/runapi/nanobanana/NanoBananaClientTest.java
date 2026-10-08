@@ -99,40 +99,6 @@ class NanoBananaClientTest {
   }
 
   @Test
-  void createRejectsLiteOutputControls() {
-    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_lite\",\"status\":\"processing\"}");
-    NanoBananaClient client = NanoBananaClient.builder().apiKey("sk-test").transport(transport).build();
-
-    ValidationException error = assertThrows(
-        ValidationException.class,
-        () -> client.textToImage().create(
-            TextToImageParams.builder()
-                .model(TextToImageModel.NANO_BANANA_2_LITE)
-                .prompt("A small red cube on a plain white table, studio product photo")
-                .aspectRatio("auto")
-                .outputResolution("1k")
-                .build()));
-
-    assertEquals("output_resolution is not allowed when model is nano-banana-2-lite", error.getMessage());
-  }
-
-  @Test
-  void createRequiresLiteAspectRatio() {
-    CapturingTransport transport = new CapturingTransport("{\"id\":\"task_lite\",\"status\":\"processing\"}");
-    NanoBananaClient client = NanoBananaClient.builder().apiKey("sk-test").transport(transport).build();
-
-    ValidationException error = assertThrows(
-        ValidationException.class,
-        () -> client.textToImage().create(
-            TextToImageParams.builder()
-                .model(TextToImageModel.NANO_BANANA_2_LITE)
-                .prompt("A small red cube on a plain white table, studio product photo")
-                .build()));
-
-    assertEquals("aspect_ratio is required", error.getMessage());
-  }
-
-  @Test
   void getDecodesTaskResponseAndExtraFields() {
     CapturingTransport transport = new CapturingTransport("{\"id\":\"task_456\",\"status\":\"completed\",\"images\":[{\"url\":\"https://file.runapi.ai/generated\"}],\"custom\":\"kept\"}");
     NanoBananaClient client = NanoBananaClient.builder().apiKey("sk-test").transport(transport).build();

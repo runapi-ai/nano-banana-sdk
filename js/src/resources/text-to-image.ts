@@ -1,7 +1,6 @@
-import type { HttpClient, RequestOptions, PollingOptions, ActionSchema } from '@runapi.ai/core';
-import { compactParams, validateParams } from '@runapi.ai/core';
+import type { HttpClient, RequestOptions, PollingOptions } from '@runapi.ai/core';
+import { compactParams } from '@runapi.ai/core';
 import { pollUntilComplete } from '@runapi.ai/core/internal';
-import { contract } from '../contract_gen';
 import type {
   CompletedTextToImageResponse,
   TextToImageParams,
@@ -39,7 +38,6 @@ export class TextToImage {
    */
   async create(params: TextToImageParams, options?: RequestOptions): Promise<TaskCreateResponse> {
     const body = { model: DEFAULT_MODEL, ...compactParams(params) };
-    validateParams(contract['text-to-image'] as ActionSchema, body as Record<string, unknown>);
     return this.http.request<TaskCreateResponse>('POST', ENDPOINT, {
       body,
       ...options,

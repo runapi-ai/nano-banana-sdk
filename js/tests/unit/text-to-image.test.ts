@@ -141,19 +141,6 @@ describe('TextToImage', () => {
         }
       );
     });
-
-    it('should reject lite output controls from contract rules', async () => {
-      const textToImage = new TextToImage(mockHttp);
-
-      await expect(
-        textToImage.create({
-          model: 'nano-banana-2-lite',
-          prompt: 'A cinematic meadow scene',
-          aspect_ratio: 'auto',
-          output_resolution: '1k',
-        } as never)
-      ).rejects.toThrow('output_resolution is not allowed when model is nano-banana-2-lite');
-    });
   });
 
   describe('get', () => {

@@ -1,7 +1,7 @@
 import pytest
 
 from runapi.core import config
-from runapi.core.errors import AuthenticationError, ValidationError
+from runapi.core.errors import AuthenticationError
 from runapi.nano_banana import NanoBananaClient
 from runapi.nano_banana.resources.edit_image import EditImage
 from runapi.nano_banana.resources.text_to_image import TextToImage
@@ -172,9 +172,6 @@ def test_edit_run_narrows_completed_type():
     assert result.images[0].url == "https://x/z.png"
 
 
-# --- validation -----------------------------------------------------------
-
-
 def test_defaults_text_to_image_model():
     fake = FakeHttp({"id": "t1", "status": "pending"})
     client = NanoBananaClient(api_key="k", http_client=fake)
@@ -182,61 +179,6 @@ def test_defaults_text_to_image_model():
 
     assert fake.calls == [
         ("post", "/api/v1/nano_banana/text_to_image", {"model": "nano-banana-2-lite", "prompt": "hi there", "aspect_ratio": "auto"})]
-
-
-def test_requires_prompt():
-    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="prompt is required"):
-        client.text_to_image.create(model="nano-banana")
-
-
-def test_rejects_unknown_model():
-    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model must be one of: nano-banana, nano-banana-2, nano-banana-2-lite, nano-banana-pro"):
-        client.text_to_image.create(model="nope", prompt="hi there")
-
-
-def test_rejects_invalid_aspect_ratio():
-    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="aspect_ratio must be one of"):
-        client.text_to_image.create(model="nano-banana", prompt="hi there", aspect_ratio="7:7")
-
-
-def test_rejects_invalid_output_resolution():
-    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="output_resolution must be one of"):
-        client.text_to_image.create(model="nano-banana-2", prompt="hi there", output_resolution="8k")
-
-
-def test_requires_lite_aspect_ratio():
-    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="aspect_ratio is required"):
-        client.text_to_image.create(model="nano-banana-2-lite", prompt="hi there")
-
-
-def test_rejects_lite_output_controls():
-    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="output_resolution is not allowed when model is nano-banana-2-lite"):
-        client.text_to_image.create(
-            model="nano-banana-2-lite",
-            prompt="hi there",
-            aspect_ratio="auto",
-            output_resolution="1k",
-        )
-
-
-def test_edit_requires_source_image_urls():
-    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="source_image_urls is required"):
-        client.edit_image.create(model="nano-banana-edit", prompt="brighten it")
-
-
-def test_edit_rejects_unknown_model():
-    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="model must be one of: nano-banana-2-lite, nano-banana-edit"):
-        client.edit_image.create(
-            model="nano-banana", prompt="brighten it", source_image_urls=["https://x/a.png"]
-        )
 
 
 def test_edit_defaults_model():
@@ -256,15 +198,3 @@ def test_edit_defaults_model():
                 "source_image_urls": ["https://x/a.png"],
                 "aspect_ratio": "16:9"},
         )]
-
-
-def test_edit_rejects_lite_output_format():
-    client = NanoBananaClient(api_key="k", http_client=FakeHttp())
-    with pytest.raises(ValidationError, match="output_format is not allowed when model is nano-banana-2-lite"):
-        client.edit_image.create(
-            model="nano-banana-2-lite",
-            prompt="brighten it",
-            source_image_urls=["https://x/a.png"],
-            aspect_ratio="auto",
-            output_format="png",
-        )

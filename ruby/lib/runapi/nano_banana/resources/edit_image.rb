@@ -34,7 +34,6 @@ module RunApi
         def create(options: nil, **params)
           params = compact_params(params)
           params[:model] = DEFAULT_MODEL unless param(params, :model)
-          validate_params!(params)
           request(:post, ENDPOINT, body: params, options: options)
         end
 
@@ -44,15 +43,6 @@ module RunApi
         # @return [RunApi::NanoBanana::Types::EditImageResponse] current edit status
         def get(id, options: nil)
           request(:get, "#{ENDPOINT}/#{id}", options: options)
-        end
-
-        private
-
-        def validate_params!(params)
-          validate_contract!(CONTRACT["edit-image"], params)
-
-          raise Core::ValidationError, "prompt is required" unless param(params, :prompt)
-          raise Core::ValidationError, "source_image_urls is required" unless param(params, :source_image_urls)
         end
       end
     end

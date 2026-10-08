@@ -39,38 +39,6 @@ RSpec.describe RunApi::NanoBanana::Resources::EditImage do
       result = edit_image.create(**params)
       expect(result.id).to eq("task-default-lite")
     end
-
-    it "raises ValidationError when prompt is missing" do
-      expect { edit_image.create(model: "nano-banana-edit", source_image_urls: ["url"]) }
-        .to raise_error(RunApi::Core::ValidationError, /prompt is required/)
-    end
-
-    it "raises ValidationError when source_image_urls is missing" do
-      expect { edit_image.create(model: "nano-banana-edit", prompt: "test") }
-        .to raise_error(RunApi::Core::ValidationError, /source_image_urls is required/)
-    end
-
-    it "raises ValidationError for invalid model" do
-      expect { edit_image.create(model: "nano-banana", prompt: "test", source_image_urls: ["url"]) }
-        .to raise_error(RunApi::Core::ValidationError, /model must be one of: nano-banana-2-lite, nano-banana-edit/)
-    end
-
-    it "raises ValidationError for invalid output_format" do
-      expect { edit_image.create(model: "nano-banana-edit", prompt: "test", source_image_urls: ["url"], output_format: "webp") }
-        .to raise_error(RunApi::Core::ValidationError, /output_format must be one of/)
-    end
-
-    it "raises ValidationError for lite output_format" do
-      expect {
-        edit_image.create(
-          model: "nano-banana-2-lite",
-          prompt: "test",
-          source_image_urls: ["url"],
-          aspect_ratio: "auto",
-          output_format: "png"
-        )
-      }.to raise_error(RunApi::Core::ValidationError, /output_format is not allowed when model is nano-banana-2-lite/)
-    end
   end
 
   describe "#get" do

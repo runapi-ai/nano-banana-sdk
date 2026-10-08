@@ -103,34 +103,6 @@ func TestTextToImageCreateDefaultsModelToLite(t *testing.T) {
 	}
 }
 
-func TestTextToImageCreateRejectsLiteOutputControls(t *testing.T) {
-	client := NewClientWithHTTP(&stubHTTPClient{})
-	_, err := client.TextToImage.Create(context.Background(), TextToImageParams{
-		Model:            "nano-banana-2-lite",
-		Prompt:           "a cinematic meadow",
-		AspectRatio:      "auto",
-		OutputResolution: "1k"})
-	if err == nil {
-		t.Fatal("expected validation error")
-	}
-	if err.Error() != "output_resolution is not allowed when model is nano-banana-2-lite" {
-		t.Fatalf("unexpected error: %v", err)
-	}
-}
-
-func TestTextToImageCreateRequiresLiteAspectRatio(t *testing.T) {
-	client := NewClientWithHTTP(&stubHTTPClient{})
-	_, err := client.TextToImage.Create(context.Background(), TextToImageParams{
-		Model:  "nano-banana-2-lite",
-		Prompt: "a cinematic meadow"})
-	if err == nil {
-		t.Fatal("expected validation error")
-	}
-	if err.Error() != "aspect_ratio is required" {
-		t.Fatalf("unexpected error: %v", err)
-	}
-}
-
 func TestEditImageCreateSendsCorrectRequest(t *testing.T) {
 	stub := &stubHTTPClient{}
 	client := NewClientWithHTTP(stub)
@@ -193,22 +165,6 @@ func TestEditImageCreateDefaultsModelToLite(t *testing.T) {
 	body := stub.body.(map[string]any)
 	if body["model"] != "nano-banana-2-lite" {
 		t.Fatalf("unexpected model: %v", body["model"])
-	}
-}
-
-func TestEditImageCreateRejectsLiteOutputFormat(t *testing.T) {
-	client := NewClientWithHTTP(&stubHTTPClient{})
-	_, err := client.EditImage.Create(context.Background(), EditImageParams{
-		Model:           "nano-banana-2-lite",
-		Prompt:          "replace the background",
-		AspectRatio:     "auto",
-		OutputFormat:    "png",
-		SourceImageURLs: []string{"https://cdn.runapi.ai/public/samples/source.png"}})
-	if err == nil {
-		t.Fatal("expected validation error")
-	}
-	if err.Error() != "output_format is not allowed when model is nano-banana-2-lite" {
-		t.Fatalf("unexpected error: %v", err)
 	}
 }
 
