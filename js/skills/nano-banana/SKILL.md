@@ -115,5 +115,6 @@ Use this route only for application or production-code integration. Open the cur
 - `nano-banana`: https://runapi.ai/models/nano-banana/nano-banana.md
 - `nano-banana-2`: https://runapi.ai/models/nano-banana/2.md
 - `nano-banana-2-lite`: https://runapi.ai/models/nano-banana/2-lite.md
+- `nano-banana-2.1`: https://runapi.ai/models/nano-banana/2.1.md
 - `nano-banana-edit`: https://runapi.ai/models/nano-banana/edit.md
 - `nano-banana-pro`: https://runapi.ai/models/nano-banana/pro.md

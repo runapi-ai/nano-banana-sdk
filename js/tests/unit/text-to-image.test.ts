@@ -1,7 +1,7 @@
 import { describe, it, expect, vi, beforeEach } from 'vitest';
 import { TextToImage } from '../../src/resources/text-to-image';
 import type { HttpClient } from '@runapi.ai/core';
-import type { TextToImageResponse, TaskCreateResponse } from '../../src/types';
+import type { TextToImageResponse, TaskCreateResponse, TextToImageParams } from '../../src/types';
 
 describe('TextToImage', () => {
   const mockHttp: HttpClient = {
@@ -117,6 +117,28 @@ describe('TextToImage', () => {
           },
         }
       );
+    });
+
+    it('creates a v2.1 reference-guided task and reads its image', async () => {
+      const params = {
+        model: 'nano-banana-2.1',
+        prompt: 'Replace the background with a meadow',
+        reference_image_urls: ['https://cdn.runapi.ai/public/samples/image.jpg'],
+        output_resolution: '2k',
+        output_format: 'jpg',
+      } satisfies TextToImageParams;
+      vi.mocked(mockHttp.request)
+        .mockResolvedValueOnce({ id: 'task-v21' })
+        .mockResolvedValueOnce({ id: 'task-v21', status: 'completed', images: [{ url: 'https://cdn.runapi.ai/public/samples/result.png' }] });
+      const textToImage = new TextToImage(mockHttp);
+
+      const task = await textToImage.create(params);
+      const result = await textToImage.get(task.id);
+
+      expect(task.id).toBe('task-v21');
+      expect(mockHttp.request).toHaveBeenNthCalledWith(1, 'POST', '/api/v1/nano_banana/text_to_image', { body: params });
+      expect(mockHttp.request).toHaveBeenNthCalledWith(2, 'GET', '/api/v1/nano_banana/text_to_image/task-v21', {});
+      expect(result.images?.[0]?.url).toBe('https://cdn.runapi.ai/public/samples/result.png');
     });
 
     it('should default model to nano-banana-2-lite', async () => {

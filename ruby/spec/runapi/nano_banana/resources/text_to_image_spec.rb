@@ -51,6 +51,20 @@ RSpec.describe RunApi::NanoBanana::Resources::TextToImage do
       expect(result.id).to eq("task-lite")
     end
 
+    it "creates a v2.1 reference-guided task and reads its image" do
+      params = {model: "nano-banana-2.1", prompt: "Replace the background with a meadow", reference_image_urls: ["https://cdn.runapi.ai/public/samples/image.jpg"], output_resolution: "2k", output_format: "jpg"}
+      expect(http).to receive(:request).with(:post, endpoint, body: params)
+        .and_return("id" => "task-v21")
+      expect(http).to receive(:request).with(:get, "#{endpoint}/task-v21")
+        .and_return("id" => "task-v21", "status" => "completed", "images" => [{"url" => "https://cdn.runapi.ai/public/samples/result.png"}])
+
+      task = text_to_image.create(**params)
+      result = text_to_image.get(task.id)
+
+      expect(task.id).to eq("task-v21")
+      expect(result.images.first.url).to eq("https://cdn.runapi.ai/public/samples/result.png")
+    end
+
     it "defaults model to nano-banana-2-lite" do
       params = {prompt: "test", aspect_ratio: "auto"}
       expect(http).to receive(:request).with(:post, endpoint, body: params.merge(model: "nano-banana-2-lite"))

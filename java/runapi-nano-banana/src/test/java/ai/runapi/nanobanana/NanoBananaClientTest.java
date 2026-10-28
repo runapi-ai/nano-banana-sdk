@@ -11,6 +11,7 @@ import ai.runapi.core.http.HttpResponse;
 import ai.runapi.core.http.HttpTransport;
 import ai.runapi.core.http.JsonRequestBody;
 import ai.runapi.core.json.Json;
+import ai.runapi.core.polling.TaskCreateResponse;
 import ai.runapi.nanobanana.types.CompletedEditImageResponse;
 import ai.runapi.nanobanana.types.CompletedTextToImageResponse;
 import ai.runapi.nanobanana.types.EditImageModel;
@@ -80,6 +81,32 @@ class NanoBananaClientTest {
     assertEquals("https://cdn.runapi.ai/public/samples/image.jpg", body.get("reference_image_urls").get(0).asText());
     assertEquals(false, body.has("output_resolution"));
     assertEquals(false, body.has("output_format"));
+  }
+
+  @Test
+  void createSendsV21ReferenceRequestAndDecodesTaskId() throws Exception {
+    CapturingTransport transport = new CapturingTransport("{\"id\":\"task-v21\"}");
+    NanoBananaClient client = NanoBananaClient.builder().apiKey("sk-test").transport(transport).build();
+
+    TaskCreateResponse task = client.textToImage().create(
+        TextToImageParams.builder()
+            .model(TextToImageModel.NANO_BANANA_2_1)
+            .prompt("Replace the background with a meadow")
+            .referenceImageUrls(Collections.singletonList("https://cdn.runapi.ai/public/samples/image.jpg"))
+            .outputResolution("2k")
+            .outputFormat("jpg")
+            .build()
+    );
+
+    assertEquals("task-v21", task.getId());
+    assertEquals("POST", transport.request.getMethod().name());
+    assertEquals("/api/v1/nano_banana/text_to_image", transport.request.getPath());
+    JsonNode body = bodyJson(transport.request);
+    assertEquals("nano-banana-2.1", body.get("model").asText());
+    assertEquals("Replace the background with a meadow", body.get("prompt").asText());
+    assertEquals("https://cdn.runapi.ai/public/samples/image.jpg", body.get("reference_image_urls").get(0).asText());
+    assertEquals("2k", body.get("output_resolution").asText());
+    assertEquals("jpg", body.get("output_format").asText());
   }
 
   @Test

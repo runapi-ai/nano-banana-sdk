@@ -88,7 +88,7 @@ public final class TextToImageParams {
       return this;
     }
 
-    /** Sets the output format. Not supported by nano-banana-2-lite. */
+    /** Sets the output format. V2.1 accepts png or jpg and defaults to jpg. Not supported by nano-banana-2-lite. */
     public Builder outputFormat(String value) {
       this.outputFormat = value;
       return this;
@@ -100,13 +100,13 @@ public final class TextToImageParams {
       return this;
     }
 
-    /** Sets the output resolution. Not supported by nano-banana-2-lite. */
+    /** Sets the output resolution. V2.1 accepts 1k, 2k, or 4k and defaults to 1k. Not supported by nano-banana-2-lite. */
     public Builder outputResolution(String value) {
       this.outputResolution = value;
       return this;
     }
 
-    /** Sets the reference image URLs. Lite accepts up to 10 images; other limits vary by model. */
+    /** Sets the reference image URLs. V2.1 and Lite accept up to 10 images; other limits vary by model. */
     public Builder referenceImageUrls(List<String> value) {
       this.referenceImageUrls = value;
       return this;

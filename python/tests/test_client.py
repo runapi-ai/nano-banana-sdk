@@ -198,3 +198,28 @@ def test_edit_defaults_model():
                 "source_image_urls": ["https://x/a.png"],
                 "aspect_ratio": "16:9"},
         )]
+
+
+def test_v21_reference_request_and_image_response():
+    fake = FakeHttp(
+        {"id": "task-v21"},
+        {"id": "task-v21", "status": "completed", "images": [{"url": "https://cdn.runapi.ai/public/samples/result.png"}]},
+    )
+    client = NanoBananaClient(api_key="k", http_client=fake)
+    params = {
+        "model": "nano-banana-2.1",
+        "prompt": "Replace the background with a meadow",
+        "reference_image_urls": ["https://cdn.runapi.ai/public/samples/image.jpg"],
+        "output_resolution": "2k",
+        "output_format": "jpg",
+    }
+
+    task = client.text_to_image.create(**params)
+    result = client.text_to_image.get(task.id)
+
+    assert task.id == "task-v21"
+    assert fake.calls == [
+        ("post", "/api/v1/nano_banana/text_to_image", params),
+        ("get", "/api/v1/nano_banana/text_to_image/task-v21", None),
+    ]
+    assert result.images[0].url == "https://cdn.runapi.ai/public/samples/result.png"

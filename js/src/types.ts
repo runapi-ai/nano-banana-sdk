@@ -1,7 +1,7 @@
 import type { AsyncTaskStatus, TaskResponse } from '@runapi.ai/core';
 
-/** Generation model tiers: standard (fast), pro (higher resolution + more refs), v2, and v2 lite. */
-export type TextToImageModel = 'nano-banana' | 'nano-banana-pro' | 'nano-banana-2' | 'nano-banana-2-lite';
+/** Generation model tiers: standard (fast), pro (higher resolution + more refs), v2, v2.1, and v2 lite. */
+export type TextToImageModel = 'nano-banana' | 'nano-banana-pro' | 'nano-banana-2' | 'nano-banana-2.1' | 'nano-banana-2-lite';
 /** Editing-capable Nano Banana models. */
 export type EditImageModel = 'nano-banana-edit' | 'nano-banana-2-lite';
 
@@ -88,6 +88,21 @@ export interface GenerationV2Params {
   reference_image_urls?: string[];
 }
 
+/** V2.1 generation. Accepts prompts up to 20000 chars and up to 10 reference images. */
+export interface GenerationV21Params {
+  model: 'nano-banana-2.1';
+  prompt: string;
+  callback_url?: string;
+  /** Defaults to jpg. */
+  output_format?: 'png' | 'jpg';
+  /** Defaults to auto. */
+  aspect_ratio?: AspectRatioV2;
+  /** Defaults to 1k. */
+  output_resolution?: OutputResolution;
+  /** Optional visual guidance images (up to 10). */
+  reference_image_urls?: string[];
+}
+
 /** V2 Lite generation. Requires aspect_ratio, accepts up to 10 references, and has no output format or resolution controls. */
 export interface GenerationV2LiteParams {
   /** Defaults to `nano-banana-2-lite` when omitted. */
@@ -107,6 +122,7 @@ export type TextToImageParams =
   | GenerationBaseParams
   | GenerationProParams
   | GenerationV2Params
+  | GenerationV21Params
   | GenerationV2LiteParams;
 
 /** Dedicated edit model. Requires source images and supports output format control. */

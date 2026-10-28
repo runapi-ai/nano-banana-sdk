@@ -219,3 +219,32 @@ func TestTextToImageCreateCompactsParams(t *testing.T) {
 		t.Fatal("expected empty callback_url to be compacted away")
 	}
 }
+
+func TestTextToImageCreateSendsV21ReferenceRequestAndDecodesTaskID(t *testing.T) {
+	stub := &stubHTTPClient{}
+	client := NewClientWithHTTP(stub)
+	task, err := client.TextToImage.Create(context.Background(), TextToImageParams{
+		Model:              "nano-banana-2.1",
+		Prompt:             "Replace the background with a meadow",
+		ReferenceImageURLs: []string{"https://cdn.runapi.ai/public/samples/image.jpg"},
+		OutputResolution:   "2k",
+		OutputFormat:       "jpg",
+	})
+	if err != nil {
+		t.Fatal(err)
+	}
+	if task.ID != "task_123" {
+		t.Fatalf("unexpected task ID: %s", task.ID)
+	}
+	if stub.method != "POST" || stub.path != "/api/v1/nano_banana/text_to_image" {
+		t.Fatalf("unexpected request: %s %s", stub.method, stub.path)
+	}
+	body := stub.body.(map[string]any)
+	if body["model"] != "nano-banana-2.1" || body["prompt"] != "Replace the background with a meadow" || body["output_resolution"] != "2k" || body["output_format"] != "jpg" {
+		t.Fatalf("unexpected request body: %#v", body)
+	}
+	refs, ok := body["reference_image_urls"].([]any)
+	if !ok || len(refs) != 1 || refs[0] != "https://cdn.runapi.ai/public/samples/image.jpg" {
+		t.Fatalf("unexpected reference image URLs: %#v", body["reference_image_urls"])
+	}
+}
